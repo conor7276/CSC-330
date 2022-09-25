@@ -25,14 +25,15 @@ public class UnitTest {
         System.out.print(student_answers);
         int num_of_answers = answers.size();
         int correct_answers = 0;     
-        int num_of_students = student_answers.size();
+        
         //System.out.println("Number of answers in exam: " + num_of_answers);
         //System.out.println("Number of students: " + num_of_students);
         for(int ans = 0; ans < num_of_answers; ans++){
             
             if(answers.get(ans).equals(student_answers.get(ans)) == true){
-                System.out.print(" " + answers.get(ans) + " " + student_answers.get(ans));
+                //System.out.print(" " + answers.get(ans) + " " + student_answers.get(ans));
                 correct_answers++;
+                //System.out.print( " " + correct_answers + " ");
             }
             
             //if(answers.get(ans).compareTo(student_answers.get(ans)) == 0){
@@ -40,8 +41,11 @@ public class UnitTest {
             //}
 
         }
-        
-        return correct_answers / num_of_answers;
+        //System.out.print(" " + num_of_answers + " ");
+        //System.out.print(" " + (correct_answers / num_of_answers) + " ");
+        double avg = (double) correct_answers / (double) num_of_answers;
+        //System.out.print( " " + correct_answers + " " + num_of_answers + " " + avg);
+        return avg;
     }
 
 
