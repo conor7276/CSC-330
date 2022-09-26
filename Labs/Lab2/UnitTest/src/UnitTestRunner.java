@@ -2,47 +2,82 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
+// Unit Test Object /
+// Read Student info /
+// Create Student Object /
+// Add Student objects to an ArrayList<Students> /
+// Add all answers to an ArrayList of Strings
+
 public class UnitTestRunner {
     public static void main(String[] args) throws Exception {
+        // part 1
+        UnitTest test1 = new UnitTest(); // test object
+
+        // desktop path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
+        // laptop path C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
+        Scanner read_scores = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt"));
         
-        UnitTest test1 = new UnitTest();
-        Scanner read_scores = new Scanner(new File("C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\allExams.txt"));
-        ArrayList<Student> students = new ArrayList<Student>();
-        //ArrayList<String> answers = new ArrayList<String>();
-        HashMap<String,ArrayList<String>> student_answer_map = new HashMap<String,ArrayList<String>>();
+        ArrayList<Student> students = new ArrayList<Student>(); // Store student objects
+        
+        ArrayList<String> answers = new ArrayList<String>(); // Store students answers
+        
+        
         
         // read in scores
-        while(read_scores.hasNext()){
+        while(read_scores.hasNext()){ // read in student info
             String lastname = read_scores.next().trim();
             String firstname = read_scores.next().trim();
-            ArrayList<String> answers = new ArrayList<String>();
+            Student student = new Student(lastname,firstname); // create student object
+            students.add(student); // add student to student list
+            String temp = "";
+            
             System.out.print(lastname + " " + firstname + " ");
             for(int i = 0; i < 10; i++){
                 
-                String scores = read_scores.next().trim();
-                answers.add(scores);
+                String scores = read_scores.next().trim(); // read each answer
+                temp += scores;
+                
                 System.out.print(scores);
             }
             
-            double average = test1.calculateGrade(answers);
-            System.out.print(" " + average);
+            answers.add(temp);
+            
             System.out.println();
-            //String scores = read_scores.next();
-            //students.add(new Student(lastname,firstname));
-            //answers.add(scores);
+        }
+        
+        System.out.println(students);
+        System.out.println(answers);
+
+        // Create hashmap
+        HashMap<String,ArrayList<String>> student_answer_map = new HashMap<String,ArrayList<String>>();
+        int index = 0;
+        for(Student student : students){
+            String name = student.getLastName() + student.getFirstName();
+            //student_answer_map.put(name,answers.get(index));
+            index++;
+
+        }
+        
+
+
+
+
+
+        /* part 2!
+         * 
+         * 
+         * double average = test1.calculateGrade(temp_answers);
+            answers.add(temp);
+
+            
+            student.setAverage(average);
             
             
-            //students = new Student(lastname,firstname,)
-            //read_scores.next();
-            //test1.calculateGrade()
-        }
-        /* 
-        ArrayList<String> yar = new ArrayList<String>();
-        for( int i = 0; i < 10; i++){
-            yar.add("B");
-        }
-        double yes = test1.calculateGrade(yar);
-        System.out.println(yes);      
-        */  
-    }
+            System.out.print(" " + average);
+         * 
+         */
+
+
+
+    }    
 }
