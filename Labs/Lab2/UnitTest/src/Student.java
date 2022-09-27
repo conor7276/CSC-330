@@ -31,6 +31,12 @@ public class Student {
         return lastName;
     }
 
-
+    public String toString(){
+        String s = "";
+        s += firstName + " ";
+        s += lastName + " ";
+        s += average + " ";
+        return s;
+    }
 
 }
