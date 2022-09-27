@@ -13,9 +13,9 @@ public class UnitTestRunner {
         // part 1
         UnitTest test1 = new UnitTest(); // test object
 
-        // desktop path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
+        // desktop path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\answers.txt
         // laptop path C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
-        Scanner read_scores = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt"));
+        Scanner read_scores = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\allExams.txt"));
         
         ArrayList<Student> students = new ArrayList<Student>(); // Store student objects
         
@@ -49,16 +49,15 @@ public class UnitTestRunner {
         System.out.println(answers);
 
         // Create hashmap
-        HashMap<String,ArrayList<String>> student_answer_map = new HashMap<String,ArrayList<String>>();
+        HashMap<String,String> student_answer_map = new HashMap<String,String>();
         int index = 0;
         for(Student student : students){
             String name = student.getLastName() + student.getFirstName();
-            //student_answer_map.put(name,answers.get(index));
+            student_answer_map.put(name,answers.get(index));
             index++;
-
         }
         
-
+        System.out.println(student_answer_map);
 
 
 
