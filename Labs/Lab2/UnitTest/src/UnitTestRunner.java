@@ -86,20 +86,12 @@ public class UnitTestRunner {
             student.setAverage(avg);
             System.out.println(student);
         }
-        /* part 2!
-         * 
-         * 
-         * double average = test1.calculateGrade(temp_answers);
-            answers.add(temp);
+        
 
-            
-            student.setAverage(average);
-            
-            
-            System.out.print(" " + average);
-         * 
-         */
+        // get range
 
+        double range = test1.calculateRange(students);
+       
 
     }    
 }

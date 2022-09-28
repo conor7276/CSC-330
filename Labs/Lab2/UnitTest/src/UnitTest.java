@@ -53,14 +53,25 @@ public class UnitTest {
         
     }
 
-    public double calculateRange(ArrayList<ArrayList<String>> answers){
-
-
-
-        return 0.0;
+    public double calculateRange(ArrayList<Student> students){
+        double range = 0.0;
+        double min = 100.0;
+        double max = 0.0;
+        for(Student student : students){
+            double curr = student.getAverage();
+            if(curr > max ){
+                max = curr;
+            }
+            if(curr < min){
+                min = curr;
+            }
+        }
+        range = min - max;
+        System.out.println("The minimum is: " + min + "\nThe maximum is: " + max + "\nThe range is: " + range);
+        return range;
     }
 
-    public double calculateMean(ArrayList<ArrayList<String>> answers){
+    public double calculateMean(ArrayList<Student> answers){
 
         return 0.0;
     }
