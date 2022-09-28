@@ -8,9 +8,9 @@ public class UnitTest {
 
     public UnitTest(){
         try{
-            // Desktop Path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\answers.txt
+            // Desktop Path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\answers.txt
             // Laptop Path C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\answers.txt
-            this.input = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\answers.txt"));
+            this.input = new Scanner(new File("C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\answers.txt"));
             this.answers = new ArrayList<String>();
             while(input.hasNextLine()){
                 String test = input.next();
@@ -19,13 +19,13 @@ public class UnitTest {
             }
             
         }catch(Exception e){
-            System.out.println("File failed to be read");
+            System.out.println("File answers failed to be read");
         }
     }
     public double calculateGrade(ArrayList<String> student_answers){
-        /* 
+        
         // passes through answers only loop takes care of assigning grades to names
-        System.out.print(student_answers);
+        //System.out.print(student_answers);
         int num_of_answers = answers.size();
         int correct_answers = 0;     
         
@@ -49,9 +49,20 @@ public class UnitTest {
         double avg = (double) correct_answers / (double) num_of_answers;
         //System.out.print( " " + correct_answers + " " + num_of_answers + " " + avg);
         return avg;
-        */
+        
+        
+    }
+
+    public double calculateRange(ArrayList<ArrayList<String>> answers){
+
+
+
         return 0.0;
     }
 
+    public double calculateMean(ArrayList<ArrayList<String>> answers){
 
+        return 0.0;
+    }
 }
+
