@@ -2,11 +2,6 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
-// Unit Test Object /
-// Read Student info /
-// Create Student Object /
-// Add Student objects to an ArrayList<Students> /
-// Add all answers to an ArrayList of Strings
 
 public class UnitTestRunner {
     public static void main(String[] args) throws Exception {
@@ -15,8 +10,8 @@ public class UnitTestRunner {
 
         // desktop path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
         // laptop path C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
-       
-        Scanner read_scores = new Scanner(new File("C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt"));
+        
+        Scanner read_scores = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt"));
         
         ArrayList<Student> students = new ArrayList<Student>(); // Store student objects
         
@@ -76,7 +71,7 @@ public class UnitTestRunner {
         // part 2
 
 
-        // for each is going backwards
+        
         System.out.println("Updated Student objects: ");
         for (Student student : students){
             String key = "";
@@ -91,7 +86,7 @@ public class UnitTestRunner {
         // get range
 
         double range = test1.calculateRange(students);
-       
+        double mean = test1.calculateMean(students);
 
     }    
 }
