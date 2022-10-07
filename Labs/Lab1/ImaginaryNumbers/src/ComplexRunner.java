@@ -16,8 +16,8 @@ public class ComplexRunner {
         Complex c9 = new Complex(-3,5);
         Complex c10 = new Complex(-5,-6);
         answer.subtractComplex(c9, c10);
-        Complex c11 = new Complex(-2,5);
-        Complex c12 = new Complex(-3,7);
+        Complex c11 = new Complex(2,4);
+        Complex c12 = new Complex(2,4);
         answer.multiplyComplex(c11, c12);
     }
 
