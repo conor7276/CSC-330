@@ -26,6 +26,7 @@ public class UnitTest {
             System.out.println("File answers failed to be read");
         }
     }
+    
     /**
      * Calculates the Grade of a single students test score and returns it
      * @param student_answers : ArrayList<String>
