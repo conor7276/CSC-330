@@ -15,7 +15,7 @@ public class UnitTest {
         try{
             // Desktop Path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\answers.txt
             // Laptop Path C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\answers.txt
-            this.input = new Scanner(new File("C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\answers.txt"));
+            this.input = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\answers.txt"));
             this.answers = new ArrayList<String>();
             while(input.hasNextLine()){
                 String test = input.next();
@@ -70,7 +70,7 @@ public class UnitTest {
             }
         }
         
-        System.out.println("\nThe minimum is: " + min + "\nThe maximum is: " + max + "\nThe range is: " + range + "\n");
+        System.out.println("\nThe minimum is: " + min + "\nThe maximum is: " + max + "\n");
         return range;
     }
 
