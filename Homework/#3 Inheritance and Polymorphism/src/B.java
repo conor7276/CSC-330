@@ -1,4 +1,4 @@
-public class B {
+public abstract class B {
     private int m;
     protected int n;
 
@@ -14,7 +14,5 @@ public class B {
     public int getN() {
         return n;
     }
-    public abstract calc(){
-        
-    }
+    public abstract double calc();
 }

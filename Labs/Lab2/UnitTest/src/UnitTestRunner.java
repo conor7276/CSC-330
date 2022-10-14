@@ -11,7 +11,7 @@ public class UnitTestRunner {
         // desktop path C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
         // laptop path C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt
         
-        Scanner read_scores = new Scanner(new File("C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt"));
+        Scanner read_scores = new Scanner(new File("C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Labs\\Lab2\\UnitTest\\src\\allExams.txt"));
         
         ArrayList<Student> students = new ArrayList<Student>(); // Store student objects
         
@@ -72,7 +72,7 @@ public class UnitTestRunner {
 
 
         
-        System.out.println("Updated Student objects: ");
+        System.out.println("Student Averages: ");
         for (Student student : students){
             String key = "";
             key += student.getLastName();
