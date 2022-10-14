@@ -1,3 +1,3 @@
-public class Vehicle{
+public abstract class Vehicle{
     public abstract double getMilesPerGallon();
 }
