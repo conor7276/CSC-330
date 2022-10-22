@@ -54,6 +54,27 @@ public class ShapeRunner {
          * }
          */
 
+        String dave = "dave";
+        String davf = "davf";
+
+        if (dave.compareTo(davf) > davf.compareTo(dave)){
+            System.out.println("Dave");
+        }
+        else{
+            System.out.println("Davf");
+        }
         
+
+
+
+        String itsReal = "The one piece is real!";
+        boolean is_the_one_piece_real = true;
+
+        if(is_the_one_piece_real == true){
+            System.out.println(itsReal);
+        }
+        else{
+            System.out.println("Nah");
+        }
     }
 }

@@ -61,7 +61,7 @@ public class Rectangle extends Shape {
         else{
             return 0; // a zero implies equality
         }
-
+        
         // another way is to return the difference of the values
         /*
          * return this.getStrength() - other.getStrength();
