@@ -20,7 +20,7 @@ public class CargoShip extends Ship {
 
     public String toString(){
         String s = "";
-        s += super.toString();
+        s += getName() + "\n";
         s += "The max capacity of the ship in tonnage is: " + getCapacity() + "\n";
         return s;
     }

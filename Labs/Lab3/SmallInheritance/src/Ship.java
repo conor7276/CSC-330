@@ -30,7 +30,7 @@ public class Ship {
     public String toString(){
         String s = "";
         s += "The ships name is: " + getName() + "\n";
-        s += "The ships year made is: " +  getYear() + "\n";
+        s += "The ships year made is: " +  getYear() + "\n\n";
         return s;
     }
 }

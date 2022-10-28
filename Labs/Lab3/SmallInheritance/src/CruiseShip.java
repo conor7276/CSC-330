@@ -19,7 +19,9 @@ public class CruiseShip extends Ship{
 
     public String toString(){
         String s = "";
-        s += super.toString(); // overloaded method from superclass
+        //s += super.toString(); // overloaded method from superclass
+        //s.replaceAll("The ships year made is: " + super.getName(),"");
+        s += getName() + "\n";
         s += "The maximum number of passengers is: " + getMaxPassengers() + "\n";
         return s;
 
