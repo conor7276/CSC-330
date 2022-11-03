@@ -61,4 +61,8 @@ public class Song {
         s += "Price: " + price + "\n";
         return s;
     }
+
+    public boolean compareTo(Song otherSong){
+        return this.title == otherSong.title;
+    }
 }

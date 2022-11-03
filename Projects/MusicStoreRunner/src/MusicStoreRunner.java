@@ -20,8 +20,9 @@ public class MusicStoreRunner {
         Album ourAlbum = new Album(ourSongs, "CSC 330's Greatest Hits", "All of Us \n");
         System.out.println("Price of our album: $" + ourAlbum.getPrice());
         System.out.println(ourAlbum);
-
-
+        String wrd1 = "abc";
+        String wrd2 = "abcdefgh";
+        System.out.println(wrd1.compareTo(wrd2));
         /* This is for lab this is very important!!!!!!!!!!!!!
          * How do you read in data in java!!!!!!!!
          * There is no CIN 
