@@ -1,5 +1,8 @@
 public class Ice extends Pokemon {
     
+    public Ice(){
+        
+    }
     
     public void attack(Pokemon other, int attackIndex) {
         // TODO Auto-generated method stub

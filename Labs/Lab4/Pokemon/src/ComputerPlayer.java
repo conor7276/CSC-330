@@ -1,7 +1,7 @@
 public class ComputerPlayer extends Player {
     
 
-    public ComputerPlayer(Pokemon p, String i){
+    public ComputerPlayer(Pokemon p, Item i){
         super(p,i);
     }
 

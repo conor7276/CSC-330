@@ -1,9 +1,9 @@
 public abstract class Player {
 
     Pokemon pokemon; // ONLY ONE POKEMON PER PLAYER
-    String item; // One item that will be brought into battle
+    Item item; // One item that will be brought into battle
 
-    public String getItem() {
+    public Item getItem() {
         return item;
     }
 
@@ -11,7 +11,7 @@ public abstract class Player {
         return pokemon;
     }
 
-    public Player(Pokemon p, String i){
+    public Player(Pokemon p, Item i){
         pokemon = p;
         item = i;
     }

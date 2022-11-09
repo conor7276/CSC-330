@@ -1,7 +1,7 @@
 public class HumanPlayer extends Player{
     
 
-    public HumanPlayer(Pokemon p, String i){
+    public HumanPlayer(Pokemon p, Item i){
         super(p,i);
 
     }
