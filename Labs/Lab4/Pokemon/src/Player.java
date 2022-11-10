@@ -1,7 +1,7 @@
 public abstract class Player {
-
-    Pokemon pokemon; // ONLY ONE POKEMON PER PLAYER
-    Item item; // One item that will be brought into battle
+    private String name;
+    private Pokemon pokemon; // ONLY ONE POKEMON PER PLAYER
+    private Item item; // One item that will be brought into battle
 
     public Item getItem() {
         return item;
@@ -11,11 +11,16 @@ public abstract class Player {
         return pokemon;
     }
 
-    public Player(Pokemon p, Item i){
+    public String getName() {
+        return name;
+    }
+    public Player(Pokemon p, Item i, String n){
         pokemon = p;
         item = i;
+        name = n;
     }
-
+    
+    
     public abstract void run();
 
 

@@ -5,6 +5,12 @@ public class Attack {
     private String moveType; // type of attack Ex: fire, dark
     private int baseDamage; // damage that the move does
 
+    public Attack(String d, int p, String m, int b){
+        description = d;
+        powerPointCost = p;
+        moveType = m;
+        baseDamage = b;
+    }
 
     public int getBaseDamage() {
         return baseDamage;
@@ -17,6 +23,14 @@ public class Attack {
     }
     public String getMoveType() {
         return moveType;
+    }
+    public String toString(){
+        String s = "";
+        s += "\nName: " + getDescription();
+        s += "\nPP: " + getPowerPointCost();
+        s += "\nType: " + getMoveType();
+        s += "\nDamage: " + getBaseDamage() + "\n";
+        return s;
     }
 
 }
