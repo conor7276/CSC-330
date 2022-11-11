@@ -5,6 +5,7 @@ public class Bug extends Pokemon {
     }
     
     public void attack(Pokemon other, int attackIndex) {
+        
         if(other.getType().equals("Psyhcic") || other.getType().equals("Poison") || other.getType().equals("Grass")){
             attackIndex *= 2;
             other.setHitPoints(other.getHitPoints() - attackIndex);

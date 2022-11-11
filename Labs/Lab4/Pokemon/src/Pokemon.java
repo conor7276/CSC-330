@@ -28,6 +28,9 @@ public abstract class Pokemon {
         return attacks;
     }
 
+    public Attack getAttack(int index){
+        return attacks[index];
+    }
     public int getHitPoints() {
         return hitPoints;
     }
