@@ -23,7 +23,9 @@ public abstract class Pokemon {
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
-    
+    public void setPowerPoints(int powerPoints) {
+        this.powerPoints = powerPoints;
+    }
     public Attack[] getAttacks() {
         return attacks;
     }

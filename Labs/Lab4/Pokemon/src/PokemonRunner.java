@@ -1,47 +1,55 @@
 // ideas
 // working health bar ui, goes red when low
-// max health display
+// make ai !!!!!!!!!!!!!!
 // check max health when using item
+// run away methods
 
+import java.util.Random;
 import java.util.Scanner;
 //import java.util.ConsoleColors;
 public class PokemonRunner {
     public static void main(String[] args) throws Exception {
         // user pokemon
         Attack[] userAttacks = {
-             new Attack("Attack 1",2,"Bug",100)
-            ,new Attack("Attack 2",5,"???", 400)
-            ,new Attack("Attack 3",10,"yah",100)
-            ,new Attack("Attack 4",2,"Bug",100)
+             new Attack("Megahorn",4,"Bug",120)
+            ,new Attack("Close Combat",5,"Fighting", 120)
+            ,new Attack("Stone Edge",4,"Rock",100)
+            ,new Attack("Brick Break",2,"Fighting",75)
             };
-        Bug player = new Bug(100,30,"Spiderman","Bug", userAttacks);
+        Pokemon player = new Heracross(1000,30,"Heracross","Bug", userAttacks);
         HumanPlayer human = new HumanPlayer(player, new Potion(100), "Player");
         System.out.println(human.toString());
 
         Attack[] cpuAttacks = {
-            new Attack("Attack 1",20, "Flying", 20),
-            new Attack("Attack 1",20, "Baller", 50),
-            new Attack("Attack 1",20, "Flying", 500),
-            new Attack("Attack 1",20, "Gangster", 40)
+            new Attack("Hurricane",5, "Flying", 110),
+            new Attack("Air Slash",2, "Flying", 75),
+            new Attack("U-Turn",2, "Bug", 70),
+            new Attack("Twister",20, "Dragon", 40)
         };
-        Flying comp = new Flying(120, 25, "Da baby", "Flying", cpuAttacks);
+        Pokemon comp = new Pidgeot(120, 25, "Pidgeot", "Flying", cpuAttacks);
         ComputerPlayer cpu = new ComputerPlayer(comp, new Potion(100), "CPU");
         System.out.println(cpu.toString());
 
         boolean battle = true;
+        int turnCount = 0;
+        
         while(battle){
             // check if pokemon has fainted
             if(player.getHitPoints() <= 0 || comp.getHitPoints() <= 0){
-                if(player.getHitPoints() <= 0){
-                    loserMessage(human.getName(), comp.getName());
+                if(player.getHitPoints() >= 0){
+                    loserMessage(human.getName(), cpu.getName());
                 }
                 else{
-                    loserMessage(comp.getName(), human.getName());
+                    loserMessage(cpu.getName(), human.getName());
                 }
-                battle = false;
+                
+                break;
             }
             // player goes first
             int op = 0;
+            System.out.println("\n-------------------------------------------------");
+            System.out.println("Turn " + turnCount + ":");
+            displayCPU(cpu);
             displayPlayerChoice();
             Scanner input = new Scanner(System.in);
             op = input.nextInt();
@@ -49,6 +57,7 @@ public class PokemonRunner {
             /*
              * Fight Item Run
              */
+            displayCPU(cpu);
             switch(op){
                 case 0:
                 // Fight
@@ -66,38 +75,52 @@ public class PokemonRunner {
                 default:
                     break;
             }
+            // check if enemy pokemon fainted here
+            turnCount++;
+            Random cpuMove = new Random();
+            op = cpuMove.nextInt(3);
+            switch(op){
+                case 0:
+                    selectAttack(comp,player);
+                    break;
+                case 1:
+                    cpu.getItem().use(comp);
+                    break;
+                case 2:
+                    cpu.run(); // write random code for this
+                    break;
+            }
 
-                
-            
-            
             
 
 
             // computer goes second
             cpu.run();
         }
+        
     }
 
 
 
     public static void loserMessage(String winner, String loser){
-        System.out.println(winner + " has won the match " + loser + " is the loser.");
+        System.out.println(winner + " has won the match, " + loser + " is the loser.");
     }
 
     public static void displayPlayerFight(HumanPlayer p){
         String s = "";
         Attack[] attacks = p.getPokemon().getAttacks();
-        s += "\n|------------------------------------------------|\n";
-        s += "| " + p.getPokemon().getName() + "                                   |\n";
-        s += "|                                                |\n";
-        s += "| HP: " + p.getPokemon().getHitPoints() + "/" + p.getPokemon().getMaxHealth() + "   " + healthBarLogic(p) + "|\n";
-        s += "| PP: " + p.getPokemon().getPowerPoints() + "/" + p.getPokemon().getMaxPowerPoints() + "|\n";
-        s += "|                                                |\n";
-        s += "| " + attacks[0].getDescription() + " : Damage " + attacks[0].getBaseDamage() + ": PP " + attacks[0].getPowerPointCost() + "| ";
-        s += "| " + attacks[1].getDescription() + " : Damage " + attacks[1].getBaseDamage() + ": PP " + attacks[1].getPowerPointCost() + "|\n";
-        s += "| " + attacks[2].getDescription() + " : Damage " + attacks[2].getBaseDamage() + ": PP " + attacks[2].getPowerPointCost() + "| ";
-        s += "| " + attacks[3].getDescription() + " : Damage " + attacks[3].getBaseDamage() + ": PP " + attacks[3].getPowerPointCost() + "|\n";
-        s += "|------------------------------------------------|\n";
+        s += "\n|------------------------------------------------\n";
+        s += "| " + p.getName() + "\n";
+        s += "| " + p.getPokemon().getName() + "\n";
+        s += "|\n";
+        s += "| HP: " + p.getPokemon().getHitPoints() + "/" + p.getPokemon().getMaxHealth() + ": " + healthBarLogic(p) + "\n";
+        s += "| PP: " + p.getPokemon().getPowerPoints() + "/" + p.getPokemon().getMaxPowerPoints() + "\n";
+        s += "|\n";
+        s += "| " + attacks[0].getDescription() + " : Damage " + attacks[0].getBaseDamage() + ": PP " + attacks[0].getPowerPointCost();
+        s += "| " + attacks[1].getDescription() + " : Damage " + attacks[1].getBaseDamage() + ": PP " + attacks[1].getPowerPointCost() + "\n";
+        s += "| " + attacks[2].getDescription() + " : Damage " + attacks[2].getBaseDamage() + ": PP " + attacks[2].getPowerPointCost();
+        s += "| " + attacks[3].getDescription() + " : Damage " + attacks[3].getBaseDamage() + ": PP " + attacks[3].getPowerPointCost() + "\n";
+        s += "|------------------------------------------------\n";
         System.out.println(s);
     }
 
@@ -114,8 +137,8 @@ public class PokemonRunner {
         double bars = 20;
         int maxHealth = p.getPokemon().getMaxHealth();
         int currHealth = p.getPokemon().getHitPoints();
-        double remBars = currHealth / maxHealth;
-        bars = remBars / 0.05;
+        double remBars = (double)currHealth / (double)maxHealth;
+        bars = remBars / 0.05; // 1 bar is 5% of health
         if(remBars >= 0.5){
             // make colors green
             //System.out.print(ANSI_GREEN);
@@ -145,9 +168,28 @@ public class PokemonRunner {
             int attackChoice = move.nextInt();
             //move.close();
             System.out.println();
-            current.attack(other,attackChoice);
             System.out.println(current.getName() + " used " + current.getAttack(attackChoice).getDescription() + " on " + other.getName());
+            current.attack(other,attackChoice);
+            
     }
     
-    public static void 
+    public static void displayCPU(ComputerPlayer p){
+        /**
+         * |------------------------------|
+         * | Pokemon Name                 |
+         * |                              |
+         * | Health ----------------------|
+         * |                              |
+         * |------------------------------|
+         */
+
+        String s = "";
+        System.out.println("\n                     |------------------------------------------------");
+        System.out.println("                     | " + p.getName());
+        System.out.println("                     | " + p.getPokemon().getName() + "                   ");
+        System.out.println("                     | " + p.getPokemon().getHitPoints() + "/" + p.getPokemon().getMaxHealth() + ": " + healthBarLogic(p));
+        System.out.println("                     |                   ");
+        System.out.println("                     |-----------------------------------------------\n");
+    }
+    
 }

@@ -6,7 +6,7 @@ public class ComputerPlayer extends Player {
     }
 
     public void run(){
-        
+        System.out.println("Your enemy tried running away in fear");
     }
 
     public String toString(){
