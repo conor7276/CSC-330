@@ -3,5 +3,6 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
-    ]
+    ],
+    "vmArgs": "--module-path \"C:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib --add-modules javafx.controls,javafx.fml"
 }
