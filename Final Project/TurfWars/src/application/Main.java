@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader; // Conor: I have to comment these two imports out otherwise they throw an error for me idk what I'm missing ( I will uncomment these when I'm done)
+//import javafx.fxml.FXMLLoader; // Conor: I have to comment these two imports out otherwise they throw an error for me idk what I'm missing ( I will uncomment these when I'm done)
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -29,7 +29,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.geometry.Pos;
 
-import java.awt.event.KeyEvent; // Conor: I have to comment these two imports out otherwise they throw an error for me idk what I'm missing ( I will uncomment these when I'm done)
+//import java.awt.event.KeyEvent; // Conor: I have to comment these two imports out otherwise they throw an error for me idk what I'm missing ( I will uncomment these when I'm done)
 import javafx.geometry.Insets;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,14 +43,14 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 
 import java.util.*;
-
+import java.util.HashMap;
 public class Main extends Application {
 	
 	@SuppressWarnings("removal")
 	Integer size_amount = new Integer(0);
 	
 	GridSquare gameboard[][] = new GridSquare[size_amount][size_amount];
-	Scene Menu, GameScreen, gamesize;
+	Scene Menu, GameScreen, gamesize, EndScreen;
 	@SuppressWarnings("removal")
 	Integer Size_Graphic = new Integer(0);
 	User u = new User();
@@ -496,8 +496,10 @@ public class Main extends Application {
 
 					}
 
-					RunningGame();
+					RunningGame(primaryStage);
+					
 					button_press.play();
+					
 				}
 			});
 			HBox gamesize_Button_layout = new HBox(5);
@@ -541,15 +543,15 @@ public class Main extends Application {
 		}
 	}
 
-	void RunningGame() {
+	void RunningGame(Stage primaryStage) {
 		@SuppressWarnings("removal")
 //		Boolean graytiles_exist = new Boolean(true);
-		int grayTiles = size_amount * size_amount;
-		while (grayTiles > 0) {
-
+		int grayTiles = (size_amount * size_amount) - 4;
+		
+		
 			// have to set player URL strings when initialize to differentiate from game
 			// board gray tiles.
-
+			System.out.println("Gray tiles: " + grayTiles);
 //			try {
 			String[] options = {"north", "south", "west", "east"};
 			Random randomOpt = new Random();
@@ -577,6 +579,10 @@ public class Main extends Application {
 							}
 							System.out.println();
 						}
+						boolean end = checkTiles();
+						if(end == true) {
+							endgame(primaryStage);
+						}
 					}
 					
 					else if (e.getCode() == KeyCode.D) {
@@ -601,6 +607,10 @@ public class Main extends Application {
 								
 							}
 							System.out.println();
+						}
+						boolean end = checkTiles();
+						if(end == true) {
+							endgame(primaryStage);
 						}
 					}
 				
@@ -627,6 +637,10 @@ public class Main extends Application {
 							}
 							System.out.println();
 						}
+						boolean end = checkTiles();
+						if(end == true) {
+							endgame(primaryStage);
+						}
 					}
 						
 					else if (e.getCode() == KeyCode.W) {
@@ -651,11 +665,115 @@ public class Main extends Application {
 							}
 							System.out.println();
 						}
-						
+						boolean endGame = checkTiles();
+						if(endGame == true) {
+							endgame(primaryStage);
+						}
 				}
 				});
-				grayTiles--;
-		}
+				System.out.println("We made it out alive");
+		
 
 	}
+	
+	boolean checkTiles() {
+		// check conditions to end game
+		System.out.println("We are in endgame");
+		System.out.println(size_amount);
+		int grayCounter = 0;
+		for(int i = 0; i < size_amount; i++) {
+			for(int j = 0; j < size_amount; j++) {
+				if(gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG") { 
+					grayCounter++;
+				}
+			}		
+		}
+		System.out.println("The number of gray tiles remaining is " + grayCounter);	
+		if(grayCounter == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	void endgame(Stage primaryStage) {
+		int pink_count = 0;
+		int green_count = 0;
+		int blue_count = 0;
+		int purple_count = 0;
+		System.out.println("Are we counting colors???");
+		for(int i = 0; i < size_amount; i++) {
+			for(int j = 0; j < size_amount; j++) {
+				
+				if(gameboard[i][j].getURL() == "Pink_Slime_Trail.png") {
+					
+					pink_count++;
+				}
+				if(gameboard[i][j].getURL() == "Green_SlimeTrail.png") {
+					green_count++;
+					
+				}
+				if(gameboard[i][j].getURL() == "Blue_Slime_Trail.jpg") {
+					blue_count++;
+				}
+				if(gameboard[i][j].getURL() == "Purple_Slime_Trail.png") {
+					purple_count++;
+				}
+			}
+		}
+		int[] points = {pink_count,green_count,blue_count,purple_count};
+		String[] names = {"Pink","Green","Blue","Purple"};
+		
+		for(int i = 0; i < points.length; i++) {
+			for(int j = 0; j < points.length; j++) {
+				if(points[j] < points[i]) {
+					int temp = points[j];
+					String Temp = names[j];
+					points[j] = points[i];
+					names[j] = names[i];
+					points[i] = temp;
+					names[i] = Temp;
+				}
+			}
+		}
+		System.out.println(points[0]+ " " + points[1] + " " + points[2] + " " + points[3]);
+		System.out.println(names[0]+ " " + names[1] + " " + names[2] + " " + names[3]);
+		String displayScores = "";
+		displayScores += "The winner is: " + names[0] + "\n";
+		displayScores += "1. " + names[0] + " " + points[0] + "\n";
+		displayScores += "2. " + names[1] + " " + points[1] + "\n";
+		displayScores += "3. " + names[2] + " " + points[2] + "\n";
+		displayScores += "4. " + names[3] + " " + points[3] + "\n";
+		Label messageLabel = new Label(displayScores);
+		
+		VBox vbox = new VBox(messageLabel);
+		Scene scene = new Scene(vbox, 500, 500);
+		try {
+		BackgroundImage gamescreen_BG = new BackgroundImage(new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		vbox.setBackground(new Background(gamescreen_BG));
+		vbox.setAlignment(Pos.CENTER);
+		Button play = new Button();
+		play.setShape(new Circle());
+		play.setMaxSize(3, 3);
+		play.setGraphic(
+				new ImageView(new Image(new FileInputStream("Assets/right_arrow.png"), 50, 50, false, false)));
+		play.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				System.out.println("Thanks for playing!");
+				System.exit(0);
+			}
+		});
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
 }
