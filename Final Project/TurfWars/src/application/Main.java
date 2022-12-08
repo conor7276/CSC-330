@@ -1,6 +1,7 @@
 package application;
 
 import javafx.scene.control.Button;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -44,6 +45,7 @@ import javafx.scene.shape.Circle;
 
 import java.util.*;
 import java.util.HashMap;
+
 public class Main extends Application {
 	
 	@SuppressWarnings("removal")
@@ -746,34 +748,43 @@ public class Main extends Application {
 		displayScores += "2. " + names[1] + " " + points[1] + "\n";
 		displayScores += "3. " + names[2] + " " + points[2] + "\n";
 		displayScores += "4. " + names[3] + " " + points[3] + "\n";
-		Label messageLabel = new Label(displayScores);
 		
-		VBox vbox = new VBox(messageLabel);
-		Scene scene = new Scene(vbox, 500, 500);
+		
 		try {
-		BackgroundImage gamescreen_BG = new BackgroundImage(new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
-				BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		vbox.setBackground(new Background(gamescreen_BG));
-		vbox.setAlignment(Pos.CENTER);
-		Button play = new Button();
-		play.setShape(new Circle());
-		play.setMaxSize(3, 3);
-		play.setGraphic(
-				new ImageView(new Image(new FileInputStream("Assets/right_arrow.png"), 50, 50, false, false)));
-		play.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				System.out.println("Thanks for playing!");
-				System.exit(0);
-			}
-		});
+			Label messageLabel = new Label(displayScores);
+			messageLabel.setGraphic(new ImageView(new Image(new FileInputStream("Assets/Gray_square_tile .PNG"),200,100,false,false)));
+			
+			Button play = new Button();
+			play.setShape(new Circle());
+			play.setMaxSize(3, 3);
+			play.setGraphic(
+					new ImageView(new Image(new FileInputStream("Assets/right_arrow.png"), 50, 50, false, false)));
+			play.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					System.out.println("Thanks for playing!");
+					System.exit(0);
+				}
+			
+			});
+			VBox vbox = new VBox(messageLabel,play);
+			BackgroundImage gamescreen_BG = new BackgroundImage(new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
+					BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+					BackgroundSize.DEFAULT);
+			vbox.setBackground(new Background(gamescreen_BG));
+			vbox.setAlignment(Pos.CENTER);
+			
+			
+			Scene scene = new Scene(vbox, 500, 500);
+			
+			primaryStage.setScene(scene);
+			
+			primaryStage.show();
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
 		
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		
 	}
 	
 }
