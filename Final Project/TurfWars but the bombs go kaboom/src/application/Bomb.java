@@ -30,7 +30,11 @@ public class Bomb extends GridSquare implements Items{
 		
 	}
 	@Override
+<<<<<<< HEAD
 	public GridSquare[][] Use(GridSquare[][] gameboard, String SlimeTrail_String, int[] location,PlayerSuper trail) {
+=======
+	public GridSquare[][] Use(GridSquare[][] gameboard, String SlimeTrail_String, int[] location,PlayerSuper slime) {
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 		// TODO Auto-generated method stub
 		bomb_sound = null;
 		bomb_sound = new MediaPlayer(new Media(new File(bomb_sound_location).toURI().toString()));
@@ -43,7 +47,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0] + 1][location[1]].setURL(trail.getTrailString());
+=======
+				gameboard[location[0] + 1][location[1]].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] + 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
@@ -53,7 +67,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0] - 1][location[1]].setURL(trail.getTrailString());
+=======
+				gameboard[location[0] - 1][location[1]].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] - 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
@@ -63,7 +87,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0]][location[1] + 1].setURL(trail.getTrailString());
+=======
+				gameboard[location[0]][location[1] + 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0]][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 			
 		}catch(Exception e) {
@@ -74,7 +108,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0]][location[1] - 1].setURL(trail.getTrailString());
+=======
+				gameboard[location[0]][location[1] - 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0]][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 			
 		}catch(Exception e) {
@@ -85,7 +129,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0] + 1][location[1] + 1].setURL(trail.getTrailString());
+=======
+				gameboard[location[0] + 1][location[1] + 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] + 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 			
 		}catch(Exception e) {
@@ -96,7 +150,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0]][location[1] - 1].setURL(trail.getTrailString());
+=======
+				gameboard[location[0]][location[1] - 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] + 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 			
 		}catch(Exception e) {
@@ -107,7 +171,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0] - 1][location[1] + 1].setURL(trail.getTrailString());
+=======
+				gameboard[location[0] - 1][location[1] + 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] - 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 			
 		}catch(Exception e) {
@@ -118,7 +192,17 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
+<<<<<<< HEAD
 				gameboard[location[0] - 1][location[1] - 1].setURL(trail.getTrailString());
+=======
+				gameboard[location[0] - 1][location[1] - 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] - 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+>>>>>>> 732bf7cb2bed0a5869fb4a570a05b1962b6996b5
 			}
 			
 		}catch(Exception e) {

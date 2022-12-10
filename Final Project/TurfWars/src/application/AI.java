@@ -76,11 +76,15 @@ public class AI extends PlayerSuper {
 		// ArrayList instead of Set because of random choice
 		ArrayList<String> other_tiles = new ArrayList<String>(); //colors that are not the AIs
 		ArrayList<String> same_tiles = new ArrayList<String>(); //colors that are the AIs
-		
+		ArrayList<String> item_tiles = new ArrayList<String>(); // for item priority
 		for(String dir : options) { // check if trail is not the same as the AIs
 			if(dir == "North") {
 				if(this.GetNorth().getURL() != this.getTrailString()) { // different trail
 					other_tiles.add("North");
+					System.out.println(this.getTrailString() + " " + "North: " + this.GetNorth().getURL());
+					if(this.GetNorth().getURL() == "Assets/V_laser_tile.jpg" || this.GetNorth().getURL() == "Assets/H_laser_tile.jpg" || this.GetNorth().getURL() == "Assets/Bomb_tile.jpg") {
+						item_tiles.add("North");
+					}
 				}
 				else { // same trail
 					same_tiles.add("North");
@@ -88,7 +92,11 @@ public class AI extends PlayerSuper {
 			}
 			if(dir == "South") {
 				if(this.GetSouth().getURL() != this.getTrailString()) { // different trail
+					System.out.println(this.getTrailString() + " " + "South: " + this.GetSouth().getURL());
 					other_tiles.add("South");
+					if(this.GetSouth().getURL() == "Assets/V_laser_tile.jpg" || this.GetSouth().getURL() == "Assets/H_laser_tile.jpg" || this.GetSouth().getURL() == "Assets/Bomb_tile.jpg") {
+						item_tiles.add("South");
+					}
 				}
 				else { // same trail
 					same_tiles.add("South");
@@ -96,7 +104,11 @@ public class AI extends PlayerSuper {
 			}
 			if(dir == "East") {
 				if(this.GetEast().getURL() != this.getTrailString()) { // different trail
+					System.out.println(this.getTrailString() + " " + "East: " + this.GetEast().getURL());
 					other_tiles.add("East");
+					if(this.GetEast().getURL() == "Assets/V_laser_tile.jpg" || this.GetEast().getURL() == "Assets/H_laser_tile.jpg" || this.GetEast().getURL() == "Assets/Bomb_tile.jpg") {
+						item_tiles.add("East");
+					}
 				}
 				else { // same trail
 					same_tiles.add("East");
@@ -104,19 +116,23 @@ public class AI extends PlayerSuper {
 			}
 			if(dir == "West") {
 				if(this.GetWest().getURL() != this.getTrailString()) { // different trail
+					System.out.println(this.getTrailString() + " " + "West: " + this.GetWest().getURL());
 					other_tiles.add("West");
+					if(this.GetWest().getURL() == "Assets/V_laser_tile.jpg" || this.GetWest().getURL() == "Assets/H_laser_tile.jpg" || this.GetWest().getURL() == "Assets/Bomb_tile.jpg") {
+						item_tiles.add("West");
+					}
 				}
 				else { // same trail
 					same_tiles.add("West");
 				}
 			}
 		}
-		
-		if(other_tiles.size() != 0) { // prioritize other tile colors
+		if(item_tiles.size() != 0) { // prioritize items
 			Random random_opt = new Random();
-			int choice = random_opt.nextInt(other_tiles.size());
-			String dir = other_tiles.get(choice); // prioritize items first
-			if((dir == "North" && this.GetNorth().getURL() == "Assets/V_laser_tile.jpg") || (dir == "North" && this.GetNorth().getURL() == "Assets/H_laser_tile.jpg") || (dir == "North" && this.GetNorth().getURL() == "Assets/Bomb_tile.jpg")) {
+			int choice = random_opt.nextInt(item_tiles.size());
+			String dir = item_tiles.get(choice); // prioritize items first
+			
+			if(dir == "North"){
 				System.out.println(this.GetNorth().getURL() + " has been picked up!");
 				if(this.GetNorth().getURL() == "Assets/V_laser_tile.jpg") {
 					
@@ -139,7 +155,7 @@ public class AI extends PlayerSuper {
 				
 				return updated_state;
 			}
-			else if((dir == "South" && this.GetSouth().getURL() == "Assets/V_laser_tile.jpg") || (dir == "South" && this.GetSouth().getURL() == "Assets/H_laser_tile.jpg") || (dir == "South" && this.GetSouth().getURL() == "Assets/Bomb_tile.jpg")) {
+			else if(dir == "South" ) {
 				System.out.println(this.GetSouth().getURL() + " has been picked up!");
 				if(this.GetSouth().getURL() == "Assets/V_laser_tile.jpg") {
 					updated_state = moveSouth(updated_state);
@@ -159,7 +175,7 @@ public class AI extends PlayerSuper {
 				
 				return updated_state;
 			}
-			else if((dir == "East" && this.GetEast().getURL() == "Assets/V_laser_tile.jpg") || (dir == "East" && this.GetEast().getURL() == "Assets/H_laser_tile.jpg") || (dir == "East" && this.GetEast().getURL() == "Assets/Bomb_tile.jpg")) {
+			else if(dir == "East") {
 				System.out.println(this.GetEast().getURL() + " has been picked up!");
 				if(this.GetEast().getURL() == "Assets/V_laser_tile.jpg") {
 					updated_state = moveEast(updated_state);
@@ -179,7 +195,7 @@ public class AI extends PlayerSuper {
 				
 				return updated_state;
 			}
-			else if((dir == "West" && this.GetWest().getURL() == "Assets/V_laser_tile.jpg") || (dir == "West" && this.GetWest().getURL() == "Assets/H_laser_tile.jpg") || (dir == "West" && this.GetWest().getURL() == "Assets/Bomb_tile.jpg")) {
+			else if(dir == "West") {
 				System.out.println(this.GetWest().getURL() + " has been picked up!");
 				if(this.GetWest().getURL() == "Assets/V_laser_tile.jpg") {
 					updated_state = moveWest(updated_state);
@@ -199,24 +215,29 @@ public class AI extends PlayerSuper {
 				
 				return updated_state;
 			}
-			else {
-				if(dir == "North") {
-					
-					updated_state = moveNorth(updated_state);
-				}
-				else if(dir == "South") {
-					
-					updated_state = moveSouth(updated_state);
-				}
-				else if(dir == "East") {
-					
-					updated_state = moveEast(updated_state);
-				}
-				else if(dir == "West") {
-					
-					updated_state = moveWest(updated_state);
-				}
+		}
+		else if(other_tiles.size() != 0) { // prioritize other tile colors
+			Random random_opt = new Random();
+			int choice = random_opt.nextInt(other_tiles.size());
+			String dir = other_tiles.get(choice); // prioritize items first
+				
+			if(dir == "North") {
+				
+				updated_state = moveNorth(updated_state);
 			}
+			else if(dir == "South") {
+				
+				updated_state = moveSouth(updated_state);
+			}
+			else if(dir == "East") {
+				
+				updated_state = moveEast(updated_state);
+			}
+			else if(dir == "West") {
+				
+				updated_state = moveWest(updated_state);
+			}
+		
 		}
 		else { // If the AI has no different tile colors around it.
 			Random random_opt = new Random();

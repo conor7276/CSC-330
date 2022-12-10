@@ -1,0 +1,16 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.base.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.controls.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.fxml.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.graphics.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.media.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.swing.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx.web.jar",
+        "c:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib\\javafx-swt.jar"
+    ],
+    "vmArgs": "--module-path C:\\Program Files\\Eclipse Adoptium\\javafx-sdk-19\\lib -- add-modules javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.media,javafx,javafx.swing,javafx.web,javafx-swt"
+}

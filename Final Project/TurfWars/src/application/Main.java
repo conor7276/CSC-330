@@ -927,7 +927,10 @@ boolean checkTiles() {
 	int gray_counter = 0;
 	for(int i = 0; i < size_amount; i++) {
 		for(int j = 0; j < size_amount; j++) {
-			if(gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG") { 
+			if(gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG"
+					|| gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg"
+					|| gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"
+					|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg") { 
 				gray_counter++;
 			}
 		}		

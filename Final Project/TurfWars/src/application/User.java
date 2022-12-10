@@ -16,7 +16,7 @@ public class User extends PlayerSuper{
 	GridSquare temp;
 	MediaPlayer move_sound;
 	//C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\movment_splat.mp3
-	String move_sound_location = "C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Final Project\\TurfWars\\Assets\\movment_splat.mp3";
+	String move_sound_location = "C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Final Project\\TurfWars\\Assets\\movment_splat.mp3";
 	@Override
 	public GridSquare[][] Movement(GridSquare[][] updated_state, String direction) {
 		

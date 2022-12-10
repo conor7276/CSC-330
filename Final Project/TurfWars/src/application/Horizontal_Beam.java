@@ -10,7 +10,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 public class Horizontal_Beam  extends GridSquare implements Items{
 	MediaPlayer beam_sound;
-	String beam_sound_location = "C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Final Project\\TurfWars\\Assets\\laser_sound.wav";
+	String beam_sound_location = "C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Final Project\\TurfWars\\Assets\\laser_sound.wav";
     // C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\laser_sound.wav
 	Horizontal_Beam(String URL, int img_size)
 	{

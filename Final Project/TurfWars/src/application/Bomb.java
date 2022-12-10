@@ -11,7 +11,7 @@ import javafx.scene.media.MediaPlayer;
 
 public class Bomb extends GridSquare implements Items{
 	MediaPlayer bomb_sound;
-	String bomb_sound_location = "C:\\Users\\Conor\\Desktop\\School\\Fall 2022\\CSC 330\\Final Project\\TurfWars\\Assets\\bomb_sound.mp3";
+	String bomb_sound_location = "C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Final Project\\TurfWars\\Assets\\bomb_sound.mp3";
 	// C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\bomb_sound.mp3
 
 	Bomb(String URL, int img_size)
@@ -30,7 +30,9 @@ public class Bomb extends GridSquare implements Items{
 		
 	}
 	@Override
-	public GridSquare[][] Use(GridSquare[][] gameboard, String SlimeTrail_String, int[] location,PlayerSuper trail) {
+
+	public GridSquare[][] Use(GridSquare[][] gameboard, String SlimeTrail_String, int[] location,PlayerSuper slime) {
+
 		// TODO Auto-generated method stub
 		bomb_sound = null;
 		bomb_sound = new MediaPlayer(new Media(new File(bomb_sound_location).toURI().toString()));
@@ -43,7 +45,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0] + 1][location[1]].setURL(trail.getTrailString());
+
+				gameboard[location[0] + 1][location[1]].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] + 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
@@ -53,7 +63,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0] - 1][location[1]].setURL(trail.getTrailString());
+
+				gameboard[location[0] - 1][location[1]].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] - 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
@@ -63,7 +81,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0]][location[1] + 1].setURL(trail.getTrailString());
+
+				gameboard[location[0]][location[1] + 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0]][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		}catch(Exception e) {
@@ -74,7 +100,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0]][location[1] - 1].setURL(trail.getTrailString());
+
+				gameboard[location[0]][location[1] - 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0]][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		}catch(Exception e) {
@@ -85,7 +119,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0] + 1][location[1] + 1].setURL(trail.getTrailString());
+
+				gameboard[location[0] + 1][location[1] + 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] + 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		}catch(Exception e) {
@@ -96,7 +138,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0]][location[1] - 1].setURL(trail.getTrailString());
+
+				gameboard[location[0]][location[1] - 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] + 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		}catch(Exception e) {
@@ -107,7 +157,15 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0] - 1][location[1] + 1].setURL(trail.getTrailString());
+
+				gameboard[location[0] - 1][location[1] + 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] - 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		}catch(Exception e) {
@@ -118,7 +176,16 @@ public class Bomb extends GridSquare implements Items{
 					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
 					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
 					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-				gameboard[location[0] - 1][location[1] - 1].setURL(trail.getTrailString());
+
+
+				gameboard[location[0] - 1][location[1] - 1].setURL(slime.getTrailString());
+				try {
+					gameboard[location[0] - 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		}catch(Exception e) {
