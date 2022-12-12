@@ -11,7 +11,7 @@ import javafx.scene.media.MediaPlayer;
 
 public class Bomb extends GridSquare implements Items{
 	MediaPlayer bomb_sound;
-	String bomb_sound_location = "C:\\Users\\conor\\OneDrive\\Desktop\\school\\2022 Fall\\CSC-330\\Final Project\\TurfWars\\Assets\\bomb_sound.mp3";
+	String bomb_sound_location = "Assets\\bomb_sound.mp3";
 	// C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\bomb_sound.mp3
 
 	Bomb(String URL, int img_size)
