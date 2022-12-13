@@ -14,10 +14,16 @@ import javafx.scene.media.MediaPlayer;
 
 public class User extends PlayerSuper{
 	
-	MediaPlayer move_sound;
+	transient MediaPlayer move_sound;
 	//C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\movment_splat.mp3
-	String move_sound_location = "Assets\\movment_splat.mp3";
+	String move_sound_location = "Assets/movment_splat.mp3";
 	@Override
+	
+	/**
+	 * movement logic for the player. We check what direction the string reads and grabs that GridSquare's
+	 * "get-DirectionName-()" to move to that direction
+	 */
+	
 	public GridSquare[][] Movement(GridSquare[][] updated_state, String direction) {
 		
 		if(direction == "west") {
@@ -37,7 +43,7 @@ public class User extends PlayerSuper{
 	    	updated_state[this.getLocation()[0]][this.getLocation()[1]+1]= new GridSquare();
 	    	updated_state[this.getLocation()[0]][this.getLocation()[1]+1].setLocation(this.getLocation()[0], this.getLocation()[1]+1);
 	    	try {
-	    		updated_state[this.getLocation()[0]][this.getLocation()[1]+1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+	    		updated_state[this.getLocation()[0]][this.getLocation()[1]+1].setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 	    		updated_state[this.getLocation()[0]][this.getLocation()[1]+1].setPadding(new Insets(0, 0, 0, 0));
 	    	} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -78,7 +84,7 @@ public class User extends PlayerSuper{
 			GridSquare temp;
 			temp = updated_state[this.getLocation()[0]][this.getLocation()[1]-1];
 			try {
-				temp.setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+				temp.setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,7 +115,7 @@ public class User extends PlayerSuper{
 				    	updated_state[this.getLocation()[0]][this.getLocation()[1]-1]= new GridSquare();
 				    	updated_state[this.getLocation()[0]][this.getLocation()[1]-1].setLocation(this.getLocation()[0], this.getLocation()[1]-1);
 				    	try {
-				    		updated_state[this.getLocation()[0]][this.getLocation()[1]-1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+				    		updated_state[this.getLocation()[0]][this.getLocation()[1]-1].setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 				    		updated_state[this.getLocation()[0]][this.getLocation()[1]-1].setPadding(new Insets(0, 0, 0, 0));
 				    	} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
@@ -141,6 +147,7 @@ public class User extends PlayerSuper{
 				    	}
 				    }
 			else {
+				System.out.println("Inside USER: " + this.getURL());
 				move_sound = null;
 				move_sound = new MediaPlayer(new Media(new File(move_sound_location).toURI().toString()));
 				move_sound.setVolume(0.7);
@@ -148,7 +155,7 @@ public class User extends PlayerSuper{
 				GridSquare temp;
 				temp = updated_state[this.getLocation()[0]][this.getLocation()[1]+1];
 				try {
-					temp.setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+					temp.setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -179,7 +186,7 @@ public class User extends PlayerSuper{
 			    	updated_state[this.getLocation()[0]-1][this.getLocation()[1]]= new GridSquare();
 			    	updated_state[this.getLocation()[0]-1][this.getLocation()[1]].setLocation(this.getLocation()[0]-1, this.getLocation()[1]);
 			    	try {
-			    		updated_state[this.getLocation()[0]-1][this.getLocation()[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+			    		updated_state[this.getLocation()[0]-1][this.getLocation()[1]].setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 			    		updated_state[this.getLocation()[0]-1][this.getLocation()[1]].setPadding(new Insets(0, 0, 0, 0));
 			    	} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
@@ -219,7 +226,7 @@ public class User extends PlayerSuper{
 				GridSquare temp;
 				temp = updated_state[this.getLocation()[0]+1][this.getLocation()[1]];
 	            try {
-					temp.setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+					temp.setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -249,7 +256,7 @@ public class User extends PlayerSuper{
 			    	updated_state[this.getLocation()[0]+1][this.getLocation()[1]]= new GridSquare();
 			    	updated_state[this.getLocation()[0]+1][this.getLocation()[1]].setLocation(this.getLocation()[0]+1, this.getLocation()[1]);
 			    	try {
-			    		updated_state[this.getLocation()[0]+1][this.getLocation()[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+			    		updated_state[this.getLocation()[0]+1][this.getLocation()[1]].setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 			    		updated_state[this.getLocation()[0]+1][this.getLocation()[1]].setPadding(new Insets(0, 0, 0, 0));
 			    	} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
@@ -288,7 +295,7 @@ public class User extends PlayerSuper{
 				GridSquare temp;
 				temp = updated_state[this.getLocation()[0]-1][this.getLocation()[1]];
 				try {
-					temp.setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
+					temp.setGraphic(new ImageView(new Image(new FileInputStream(this.getTrailString()),getTrail().getImage().getHeight(),getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

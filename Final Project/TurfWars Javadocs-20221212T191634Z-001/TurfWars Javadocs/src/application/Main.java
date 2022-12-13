@@ -34,23 +34,27 @@ import javafx.geometry.Insets;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.util.*;
 
 public class Main extends Application {
-	
+
 	@SuppressWarnings("removal")
 	Integer size_amount = new Integer(0);
-	
+
 	GridSquare gameboard[][] = new GridSquare[size_amount][size_amount];
-	Scene menu, game_screen, game_size;
+	Scene menu, game_screen, game_size, howTo;
 	@SuppressWarnings("removal")
 	Integer size_graphic = new Integer(0);
 	User u = new User();
@@ -64,16 +68,19 @@ public class Main extends Application {
 	public static void main(String[] args) throws FileNotFoundException {
 		launch(args);
 	}
+
 	MediaPlayer button_press;
+
 	@Override
 	public void start(Stage primaryStage) {
+		
 
 		MediaPlayer game_audio;
 		
 		button_press = new MediaPlayer(new Media(new File("Assets/button_press.mp3").toURI().toString()));
 		button_press.setVolume(0.3);
 		game_audio = new MediaPlayer(new Media(new File("Assets/In_game_theme_music.mp3").toURI().toString()));
-		game_audio.setVolume(0.3);
+		game_audio.setVolume(0);
 		game_audio.setAutoPlay(true);
 		game_audio.setCycleCount(MediaPlayer.INDEFINITE);
 
@@ -81,15 +88,183 @@ public class Main extends Application {
 
 			primaryStage.setTitle("Slippery Turf Wars");
 			
+			Button rules = new Button();
+			rules.setShape(new Circle());
+			rules.setMaxSize(3, 3);
+			rules.setGraphic(new ImageView(new Image(new FileInputStream("Assets/how_to_play.png"), 50, 50, false, false)));
+			rules.setOnAction(e -> {
+				primaryStage.setScene(howTo);
+			});
+			
+			Button resume = new Button();
+			resume.setShape(new Circle());
+			resume.setMaxSize(3, 3);
+			resume.setGraphic(new ImageView(new Image(new FileInputStream("Assets/left_arrow.png"), 30, 30, false, false)));
+			
+			resume.setOnAction(e -> {
+				try {				
+					//where the reading (loading) is happening	
+					ObjectInputStream oit = new ObjectInputStream(new FileInputStream("stw.ser"));
+					
+					size_amount = oit.readInt();
+					size_graphic = oit.readInt();
+					
+					gameboard = new GridSquare[size_amount][size_amount];
+					
+					System.out.println(size_amount);
+					
+					for (int i = 0; i < size_amount; i++) {
+						for (int j = 0; j < size_amount; j++) {
+							
+//							if(gameboard[i][j].getURL() == "Assets/Pink_Slime_Icon.png") {
+//								gameboard[i][j] = u;
+//							}
+							
+							gameboard[i][j] = (GridSquare) oit.readObject();
+							gameboard[i][j].setGraphic(new ImageView(new Image(new FileInputStream(gameboard[i][j].getURL()),
+									size_graphic, size_graphic, false, false)));
+							gameboard[i][j].setPadding(new Insets(0, 0, 0, 0));
+							
+							System.out.print(gameboard[i][j].getLocation()[0] + ", " + gameboard[i][j].getLocation()[1] + " ");
+						}
+						System.out.println();
+					}
+					
+					u = (User)oit.readObject();
+					u.setGraphic(new ImageView(new Image(new FileInputStream(u.getURL()),
+							size_graphic, size_graphic, false, false)));
+					System.out.println("THIS IS ICON URL:" + u.getURL());
+					gameboard[u.getLocation()[0]][u.getLocation()[1]] = u;
+					u.setTrail(new ImageView(new Image(new FileInputStream(u.getTrailString()),
+							size_graphic, size_graphic, false, false)));
+					System.out.println("User file uploaded: " + u.getLocation()[0] + ", " + u.getLocation()[1]);
+					for (int i = 0; i < size_amount; i++) {
+						for (int j = 0; j < size_amount; j++) {
+							gameboard[i][j].setCardinalConnections(gameboard);
+							grid.add(gameboard[i][j], j, i);
+						}
+					}
+					
+					
+//						for (int i = 0; i < size_amount; i++) {
+//							for (int j = 0; j < size_amount; j++) {
+//								gameboard[i][j] = new GridSquare();
+//								gameboard[i][j].setPadding(new Insets(0, 0, 0, 0));
+//								gameboard[i][j].setLocation(i, j);
+//								if (size_amount <= 15)
+//									size_graphic = 50;
+//
+//								else if (size_amount <= 25)
+//									size_graphic = 30;
+//
+//								else if (size_amount <= 30)
+//									size_graphic = 22;
+//
+//								else if (size_amount <= 40)
+//									size_graphic = 18;
+//
+//								else if (size_amount <= 45)
+//									size_graphic = 15;
+//
+//								try {
+//									gameboard[i][j].setURL((String)oit.readObject());
+//									gameboard[i][j].setGraphic(
+//											new ImageView(new Image(new FileInputStream(gameboard[i][j].getURL()),
+//													size_graphic, size_graphic, false, false)));
+//								} catch (FileNotFoundException ex) {
+//									// TODO Auto-generated catch block
+//									ex.printStackTrace();
+//								}
+//								
+//								System.out.println(gameboard[i][j].getURL());
+//							}
+//						}
+					oit.close();
+				} catch (Exception ex) {
+					System.out.println("Oobis!");
+					ex.printStackTrace();
+				}
+				primaryStage.setScene(game_screen);
+				RunningGame(primaryStage);
+			});
+			
+			//button to go back to main menu
+			Button btMenu = new Button();
+			btMenu.setShape(new Circle());
+			btMenu.setMaxSize(3, 3);
+			btMenu.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					primaryStage.setScene(howTo);
+					grid.getChildren().clear();
+					button_press.play();
+				}
+			});
+
+			btMenu.setGraphic(new ImageView(new Image(new FileInputStream("Assets/left_arrow.png"), 30, 30, false, false)));
+			
+			//text thart tells you how the game works
+			Text howToPlay1 = new Text("Your player starts at the top left");
+			howToPlay1.setStyle("-fx-text-fill:WHITE; -fx-font-size: 30; font-weight: bold");
+			howToPlay1.setFill(Color.WHITE);
+			
+			Text howToPlay2 = new Text("Use WASD keys to move!");
+			howToPlay2.setStyle("-fx-text-fill:WHITE; -fx-font-size: 25");
+			howToPlay2.setFill(Color.WHITE);
+			
+			Text howToPlay3 = new Text("The player with the most tiles taken by the \ntime all gray squares are gone wins!");
+			howToPlay3.setStyle("-fx-text-fill:WHITE; -fx-font-size: 23; -fx-text-alignment: center; font-weight: bold");
+			howToPlay3.setFill(Color.WHITE);
+			
+			howToPlay1.setStrokeWidth(1);
+			howToPlay1.setStroke(Color.WHITE);
+			
+			howToPlay2.setStrokeWidth(1);
+			howToPlay2.setStroke(Color.WHITE);
+			
+			howToPlay3.setStrokeWidth(1);
+			howToPlay3.setStroke(Color.WHITE);
+			
+			VBox howToColumn = new VBox(90);
+			VBox howToLayout1 = new VBox(30);
+			VBox howToLayout2 = new VBox(30);
+			VBox howToLayout3 = new VBox(30);
+			
+			howToLayout1.getChildren().addAll(howToPlay1);
+			howToLayout2.getChildren().addAll(howToPlay2);
+			howToLayout3.getChildren().addAll(howToPlay3);
+			
+			howToLayout1.setAlignment(Pos.CENTER);
+			howToLayout2.setAlignment(Pos.CENTER);
+			howToLayout3.setAlignment(Pos.CENTER);
+			
+			howToColumn.getChildren().addAll(btMenu, howToLayout1, howToLayout2, howToLayout3);
+			btMenu.setOnAction(e -> primaryStage.setScene(menu));
+			
+			BackgroundImage howTo_BG = new BackgroundImage(new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
+					BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+					BackgroundSize.DEFAULT);
+			howToColumn.setBackground(new Background(howTo_BG));
+			howToColumn.setAlignment(Pos.CENTER);
+			
+			howTo = new Scene(howToColumn, 500, 500);
+			
+			// button to start actual game
 			Button play = new Button();
 			play.setShape(new Circle());
 			play.setMaxSize(3, 3);
 			play.setGraphic(
 					new ImageView(new Image(new FileInputStream("Assets/right_arrow.png"), 50, 50, false, false)));
-			ImageView game_title = new ImageView(
+			ImageView gameTitle = new ImageView(
 					new Image(new FileInputStream("Assets/Title.png"), 250, 150, false, false));
 			VBox menu_layout = new VBox(30);
-			menu_layout.getChildren().addAll(game_title, play);
+			HBox titleOptions = new HBox(40);
+			titleOptions.getChildren().addAll(rules, play, resume);
+			titleOptions.setAlignment(Pos.CENTER);
+			menu_layout.getChildren().addAll(gameTitle, titleOptions);
+			rules.setOnAction(e -> {
+				primaryStage.setScene(howTo);
+			});
+			
 			menu_layout.setAlignment(Pos.CENTER);
 			BackgroundImage menu_bg = new BackgroundImage(new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
 					BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
@@ -108,6 +283,7 @@ public class Main extends Application {
 				
 			});
 
+			//error message if you dont put specified grid size paramter
 			Label size_error_message = new Label();
 			size_error_message.setStyle("-fx-text-fill:BLACK; -fx-font-size: 20;");
 			Button enter_size = new Button();
@@ -122,6 +298,7 @@ public class Main extends Application {
 			back_to_menu.setGraphic(
 					new ImageView(new Image(new FileInputStream("Assets/left_arrow.png"), 50, 50, false, false)));
 
+			//choose your character
 			Button player_pink = new Button();
 			player_pink.setPadding(Insets.EMPTY);
 			player_pink.setGraphic(
@@ -171,10 +348,13 @@ public class Main extends Application {
 					selected_icon = 4;
 				}
 			});
+			
+			//row of characters to choose from
 			HBox player_select_group = new HBox(10);
 			player_select_group.setAlignment(Pos.CENTER);
 			player_select_group.getChildren().addAll(player_pink, player_green, player_purple, player_blue);
 
+			//place you are entering the size of your board in
 			TextField board_size = new TextField();
 			board_size.setMaxWidth(250);
 			board_size.setPromptText("Please enter a whole number between 10-45");
@@ -279,7 +459,7 @@ public class Main extends Application {
 								u.setURL("Assets/Pink_Slime_Icon.png");
 								u.setTrail(new ImageView(new Image(new FileInputStream("Assets/Pink_Slime_Trail.png"),
 										size_graphic, size_graphic, false, false)));
-								u.setTrailString("Pink_Slime_Trail.png"); 
+								u.setTrailString("Assets/Pink_Slime_Trail.png"); 
 								gameboard[0][0] = u;
 
 								ai1.setLocation(0, size_amount - 1);
@@ -287,7 +467,7 @@ public class Main extends Application {
 								ai1.setURL("Assets/Green_Slime_Icon.png");
 								ai1.setTrail(new ImageView(new Image(new FileInputStream("Assets/Green_SlimeTrail.png"),
 										size_graphic, size_graphic, false, false)));
-								ai1.setTrailString("Green_SlimeTrail.png");
+								ai1.setTrailString("Assets/Green_SlimeTrail.png");
 								gameboard[0][size_amount - 1] = ai1;
 
 								ai2.setLocation(size_amount - 1, 0);
@@ -296,7 +476,7 @@ public class Main extends Application {
 								ai2.setTrail(
 										new ImageView(new Image(new FileInputStream("Assets/Purple_Slime_Trail.png"),
 												size_graphic, size_graphic, false, false)));
-								ai2.setTrailString("Purple_Slime_Trail.png");
+								ai2.setTrailString("Assets/Purple_Slime_Trail.png");
 								gameboard[size_amount - 1][0] = ai2;
 
 								ai3.setLocation(size_amount - 1, size_amount - 1);
@@ -304,7 +484,7 @@ public class Main extends Application {
 								ai3.setURL("Assets/Blue_Slime_Icon.png");
 								ai3.setTrail(new ImageView(new Image(new FileInputStream("Assets/Blue_Slime_Trail.jpg"),
 										size_graphic, size_graphic, false, false)));
-								ai3.setTrailString("Blue_Slime_Trail.jpg");
+								ai3.setTrailString("Assets/Blue_Slime_Trail.jpg");
 								gameboard[size_amount - 1][size_amount - 1] = ai3;
 
 							} catch (FileNotFoundException e) {
@@ -316,6 +496,23 @@ public class Main extends Application {
 								for (int j = 0; j < size_amount; j++) {
 
 									grid.add(gameboard[i][j], j, i);
+								}
+							}
+							
+							// attempting to save chars into 2d for serialization
+							char charBoard[][] = new char[size_amount][size_amount];
+							
+							for (int i = 0; i < size_amount; i++) {
+								for (int j = 0; j < size_amount; j++) {
+									if(gameboard[i][j] == u) {
+										charBoard[i][j] = 'p';
+									} else if (gameboard[i][j] == ai1) {
+										charBoard[i][j] = 'g';
+									} else if(gameboard[i][j] == ai2) {
+										charBoard[i][j] = 'u';
+									} else if (gameboard[i][j] == ai2) {
+										charBoard[i][j] = 'b';
+									}
 								}
 							}
 
@@ -376,13 +573,14 @@ public class Main extends Application {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+							
 							grid.getChildren().clear();
 							for (int i = 0; i < size_amount; i++) {
 								for (int j = 0; j < size_amount; j++) {
-
 									grid.add(gameboard[i][j], j, i);
 								}
 							}
+							
 						} else if (selected_icon == 3) {
 							set_player = "Assets/Purple_Slime_Icon.png";
 							set_trail = "Assets/Purple_Slime_Trail.png";
@@ -561,491 +759,477 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	Integer On_Screen_Items =0;
+
+	Integer On_Screen_Items = 0;
+
 	void RunningGame(Stage primaryStage) {
 		@SuppressWarnings("removal")
 //		Boolean graytiles_exist = new Boolean(true);
 		int gray_tiles = (size_amount * size_amount) - 4;
-		
-		
-			String[] options = {"north", "south", "west", "east"};
-			Random random_opt = new Random();
-				game_screen.setOnKeyPressed(e -> {
-					if (e.getCode() == KeyCode.A) {
-						
-						//System.out.println();
-						//System.out.println();
-						
-						gameboard =u.Movement(gameboard, "west");
-						
-						int CPUact1 = random_opt.nextInt(4);
-						gameboard =ai1.Movement(gameboard, options[CPUact1]);
-						int CPUact2 = random_opt.nextInt(4);
-						gameboard =ai2.Movement(gameboard, options[CPUact2]);
-						int CPUact3 = random_opt.nextInt(4);
-						gameboard =ai3.Movement(gameboard, options[CPUact3]);
-						
-						
-						Item_generator(gameboard);
-						
-						On_Screen_Items=0;
-						grid.getChildren().clear();
-						for (int i = 0; i < size_amount; i++) {
-							for (int j = 0; j < size_amount; j++) {
-								grid.add(gameboard[i][j],j,i);
-								//System.out.print(gameboard[i][j].getLocation()[0] + ","
-										//+ gameboard[i][j].getLocation()[1] + " ");
-								if(gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg" ||gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg")
-								{
-									On_Screen_Items ++;
-								}
-							}
-							//System.out.println();
-						}
-						
-						boolean end = checkTiles();
-						if(end == true) {
-							endgame(primaryStage);
-						}
-						
-						}
-					
-					
-					else if (e.getCode() == KeyCode.D) {
-						
-						//System.out.println();
-						//System.out.println();
-						
-						gameboard =u.Movement(gameboard, "east");
-						
-						int CPUact1 = random_opt.nextInt(4);
-						gameboard =ai1.Movement(gameboard, options[CPUact1]);
-						int CPUact2 = random_opt.nextInt(4);
-						gameboard =ai2.Movement(gameboard, options[CPUact2]);
-						int CPUact3 = random_opt.nextInt(4);
-						gameboard =ai3.Movement(gameboard, options[CPUact3]);
-						
-						Item_generator(gameboard);
-						
-						On_Screen_Items=0;
-						grid.getChildren().clear();
-						for (int i = 0; i < size_amount; i++) {
-							for (int j = 0; j < size_amount; j++) {
-								grid.add(gameboard[i][j],j,i);
-								//System.out.print(gameboard[i][j].getLocation()[0] + ","
-										//+ gameboard[i][j].getLocation()[1] + " ");
-								if(gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg" ||gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg")
-								{
-									On_Screen_Items ++;
-								}
-							}
-							//System.out.println();
-						}
-						boolean end = checkTiles();
-						if(end == true) {
-							endgame(primaryStage);
+
+		String[] options = { "north", "south", "west", "east" };
+		Random random_opt = new Random();
+		game_screen.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.A) {
+
+				// System.out.println();
+				// System.out.println();
+
+				gameboard = u.Movement(gameboard, "west");
+
+				int CPUact1 = random_opt.nextInt(4);
+				gameboard = ai1.Movement(gameboard, options[CPUact1]);
+				int CPUact2 = random_opt.nextInt(4);
+				gameboard = ai2.Movement(gameboard, options[CPUact2]);
+				int CPUact3 = random_opt.nextInt(4);
+				gameboard = ai3.Movement(gameboard, options[CPUact3]);
+
+				Item_generator(gameboard);
+
+				On_Screen_Items = 0;
+				grid.getChildren().clear();
+				for (int i = 0; i < size_amount; i++) {
+					for (int j = 0; j < size_amount; j++) {
+						grid.add(gameboard[i][j], j, i);
+						// System.out.print(gameboard[i][j].getLocation()[0] + ","
+						// + gameboard[i][j].getLocation()[1] + " ");
+						if (gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg") {
+							On_Screen_Items++;
 						}
 					}
-				
-					
-					else if (e.getCode() == KeyCode.S) {
-						//System.out.println();
-						//System.out.println();
-						
-						
-						gameboard =u.Movement(gameboard, "south");
-						
-						int CPUact1 = random_opt.nextInt(4);
-						gameboard =ai1.Movement(gameboard, options[CPUact1]);
-						int CPUact2 = random_opt.nextInt(4);
-						gameboard =ai2.Movement(gameboard, options[CPUact2]);
-						int CPUact3 = random_opt.nextInt(4);
-						gameboard =ai3.Movement(gameboard, options[CPUact3]);
-			
-						Item_generator(gameboard);
-						
-						On_Screen_Items=0;
-						grid.getChildren().clear();
-						for (int i = 0; i < size_amount; i++) {
-							for (int j = 0; j < size_amount; j++) {
-								grid.add(gameboard[i][j],j,i);
-								//System.out.print(gameboard[i][j].getLocation()[0] + ","
-										//+ gameboard[i][j].getLocation()[1] + " ");
-								if(gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg" ||gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg")
-								{
-									On_Screen_Items ++;
-								}
-							}
-							//System.out.println();
-						}
-						boolean end = checkTiles();
-						if(end == true) {
-							endgame(primaryStage);
-						}
-					}
-						
-					else if (e.getCode() == KeyCode.W) {
-						//System.out.println();
-						//System.out.println();
-						
-						gameboard =u.Movement(gameboard, "north");
-						
-						int CPUact1 = random_opt.nextInt(4);
-						gameboard =ai1.Movement(gameboard, options[CPUact1]);
-						int CPUact2 = random_opt.nextInt(4);
-						gameboard =ai2.Movement(gameboard, options[CPUact2]);
-						int CPUact3 = random_opt.nextInt(4);
-						gameboard =ai3.Movement(gameboard, options[CPUact3]);
-						
-                        Item_generator(gameboard);
-						
-						On_Screen_Items=0;
-						grid.getChildren().clear();
-						for (int i = 0; i < size_amount; i++) {
-							for (int j = 0; j < size_amount; j++) {
-								grid.add(gameboard[i][j],j,i);
-								//System.out.print(gameboard[i][j].getLocation()[0] + ","
-										//+ gameboard[i][j].getLocation()[1] + " ");
-								if(gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg" ||gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg")
-								{
-									On_Screen_Items ++;
-								}
-							}
-							//System.out.println();
-						}
-						boolean end = checkTiles();
-						if(end == true) {
-							endgame(primaryStage);
-						}
-						
+					// System.out.println();
 				}
-				});
+
+				boolean end = checkTiles();
+				if (end == true) {
+					endgame(primaryStage);
+				}
+				try {
+					ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("stw.ser"));
+					output.writeObject(gameboard);
+
+					output.close();
+				} catch (Exception ex) {
+					System.out.println("Error writing board to file.");
+					ex.printStackTrace();
+				}
+			}
 			
-	
+			//all the writing is happening here, but planning to add to all directions
+
+			else if (e.getCode() == KeyCode.D) {
+
+				// System.out.println();
+				// System.out.println();
+				gameboard = u.Movement(gameboard, "east");
+
+				System.out.println("User movement " + u.getLocation()[0] + ", " + u.getLocation()[1]);
+
+				int CPUact1 = random_opt.nextInt(4);
+				gameboard = ai1.Movement(gameboard, options[CPUact1]);
+				int CPUact2 = random_opt.nextInt(4);
+				gameboard = ai2.Movement(gameboard, options[CPUact2]);
+				int CPUact3 = random_opt.nextInt(4);
+				gameboard = ai3.Movement(gameboard, options[CPUact3]);
+
+				Item_generator(gameboard);
+
+				On_Screen_Items = 0;
+				grid.getChildren().clear();
+				for (int i = 0; i < size_amount; i++) {
+					for (int j = 0; j < size_amount; j++) {
+						grid.add(gameboard[i][j], j, i);
+						// System.out.print(gameboard[i][j].getLocation()[0] + ","
+						// + gameboard[i][j].getLocation()[1] + " ");
+						if (gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg") {
+							On_Screen_Items++;
+						}
+					}
+					// System.out.println();
+				}
+				boolean end = checkTiles();
+				if (end == true) {
+					endgame(primaryStage);
+				}
+				
+				//where the writing actually starts
+				try {
+					ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("stw.ser"));
+					output.writeInt(size_amount);
+					output.writeInt(size_graphic);
+					for (int i = 0; i < size_amount; i++) {
+						for (int j = 0; j < size_amount; j++) {
+							output.writeObject((GridSquare) gameboard[i][j]);
+						}
+					}
+					output.writeObject((User) u);
+					output.close();
+				} catch (Exception ex) {
+					System.out.println("Error writing board to file.");
+					ex.printStackTrace();
+				}
+			}
+
+			else if (e.getCode() == KeyCode.S) {
+				// System.out.println();
+				// System.out.println();
+
+				gameboard = u.Movement(gameboard, "south");
+
+				int CPUact1 = random_opt.nextInt(4);
+				gameboard = ai1.Movement(gameboard, options[CPUact1]);
+				int CPUact2 = random_opt.nextInt(4);
+				gameboard = ai2.Movement(gameboard, options[CPUact2]);
+				int CPUact3 = random_opt.nextInt(4);
+				gameboard = ai3.Movement(gameboard, options[CPUact3]);
+
+				Item_generator(gameboard);
+
+				On_Screen_Items = 0;
+				grid.getChildren().clear();
+				for (int i = 0; i < size_amount; i++) {
+					for (int j = 0; j < size_amount; j++) {
+						grid.add(gameboard[i][j], j, i);
+						// System.out.print(gameboard[i][j].getLocation()[0] + ","
+						// + gameboard[i][j].getLocation()[1] + " ");
+						if (gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg") {
+							On_Screen_Items++;
+						}
+					}
+					// System.out.println();
+				}
+				boolean end = checkTiles();
+				if (end == true) {
+					endgame(primaryStage);
+				}
+				try {
+					ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("stw.ser"));
+					output.writeObject(gameboard);
+//							output.writeObject(gameboard[u.getLocation()[0]][u.getLocation()[1]]);
+//							output.writeObject(ai1.getLocation());
+//							output.writeObject(ai2.getLocation());
+//							output.writeObject(ai3.getLocation());
+					output.close();
+				} catch (Exception ex) {
+					System.out.println("Error writing board to file.");
+					ex.printStackTrace();
+				}
+			}
+
+			else if (e.getCode() == KeyCode.W) {
+				// System.out.println();
+				// System.out.println();
+
+				gameboard = u.Movement(gameboard, "north");
+
+				int CPUact1 = random_opt.nextInt(4);
+				gameboard = ai1.Movement(gameboard, options[CPUact1]);
+				int CPUact2 = random_opt.nextInt(4);
+				gameboard = ai2.Movement(gameboard, options[CPUact2]);
+				int CPUact3 = random_opt.nextInt(4);
+				gameboard = ai3.Movement(gameboard, options[CPUact3]);
+
+				Item_generator(gameboard);
+
+				On_Screen_Items = 0;
+				grid.getChildren().clear();
+				for (int i = 0; i < size_amount; i++) {
+					for (int j = 0; j < size_amount; j++) {
+						grid.add(gameboard[i][j], j, i);
+						// System.out.print(gameboard[i][j].getLocation()[0] + ","
+						// + gameboard[i][j].getLocation()[1] + " ");
+						if (gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"
+								|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg") {
+							On_Screen_Items++;
+						}
+					}
+					// System.out.println();
+				}
+				boolean end = checkTiles();
+				if (end == true) {
+					endgame(primaryStage);
+				}
+				try {
+					ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("stw.ser"));
+					output.writeObject(gameboard);
+//							output.writeObject(ai1.getLocation());
+//							output.writeObject(ai2.getLocation());
+//							output.writeObject(ai3.getLocation());
+					output.close();
+				} catch (Exception ex) {
+					System.out.println("Error writing board to file.");
+					ex.printStackTrace();
+				}
+			}
+		});
+
 	}
-	
+
 	ArrayList<GridSquare> items_bucket;
 	Random random_num_items = new Random();
 	ArrayList<GridSquare> available_tiles = new ArrayList<GridSquare>();
 	Random random_tile = new Random();
-	void Item_generator(GridSquare[][] gameboard)
-	{
-		if(On_Screen_Items == 0)
-		{
+
+	void Item_generator(GridSquare[][] gameboard) {
+		if (On_Screen_Items == 0) {
 			items_bucket = null;
-			if(size_amount <= 15)
-			{
+			if (size_amount <= 15) {
 				int random_item = random_num_items.nextInt(3);
 				items_bucket = new ArrayList<GridSquare>();
-				if( random_item == 1)
-				{
+				if (random_item == 1) {
 					items_bucket.add(new Vertical_Beam("Assets/V_laser_tile.jpg", size_graphic));
 					items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-				}
-				else if(random_item == 2 )
-				{
-					items_bucket.add(new Bomb("Assets/Bomb_tile.jpg",size_graphic));
+				} else if (random_item == 2) {
+					items_bucket.add(new Bomb("Assets/Bomb_tile.jpg", size_graphic));
+					items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
+				} else {
+					items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg", size_graphic));
 					items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
 				}
-				else 
-				{
-					items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg",size_graphic));
-					items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-				}
-				
-			}
-			else if(size_amount <= 20)
-			{
+
+			} else if (size_amount <= 20) {
 				items_bucket = new ArrayList<GridSquare>();
-				for(int i = 0; i < 2; i++) {
+				for (int i = 0; i < 2; i++) {
 					int random_item = random_num_items.nextInt(3);
-					
-					if( random_item == 1)
-					{
+
+					if (random_item == 1) {
 						items_bucket.add(new Vertical_Beam("Assets/V_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					else if(random_item == 2 )
-					{
-						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg",size_graphic));
+					} else if (random_item == 2) {
+						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg", size_graphic));
+						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
+					} else {
+						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
 					}
-					else
-					{
-						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg",size_graphic));
-						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					
-					
+
 				}
-				
-			}
-			else if(size_amount <= 25)
-			{
+
+			} else if (size_amount <= 25) {
 				items_bucket = new ArrayList<GridSquare>();
-				for(int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					int random_item = random_num_items.nextInt(3);
-					
-					if( random_item == 1)
-					{
+
+					if (random_item == 1) {
 						items_bucket.add(new Vertical_Beam("Assets/V_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					else if(random_item == 2 )
-					{
-						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg",size_graphic));
+					} else if (random_item == 2) {
+						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg", size_graphic));
+						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
+					} else {
+						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
 					}
-					else
-					{
-						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg",size_graphic));
-						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					
-					
+
 				}
-			}
-			else if(size_amount <= 30)
-			{
+			} else if (size_amount <= 30) {
 				items_bucket = new ArrayList<GridSquare>();
-				for(int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4; i++) {
 					int random_item = random_num_items.nextInt(3);
-					
-					if( random_item == 1)
-					{
+
+					if (random_item == 1) {
 						items_bucket.add(new Vertical_Beam("Assets/V_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					else if(random_item == 2 )
-					{
-						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg",size_graphic));
+					} else if (random_item == 2) {
+						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg", size_graphic));
+						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
+					} else {
+						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
 					}
-					else 
-					{
-						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg",size_graphic));
-						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					
-					
+
 				}
-			}
-			else if(size_amount <= 35)
-			{
+			} else if (size_amount <= 35) {
 				items_bucket = new ArrayList<GridSquare>();
-				for(int i = 0; i < 5; i++) {
+				for (int i = 0; i < 5; i++) {
 					int random_item = random_num_items.nextInt(3);
-					
-					if( random_item == 1)
-					{
+
+					if (random_item == 1) {
 						items_bucket.add(new Vertical_Beam("Assets/V_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					else if(random_item == 2 )
-					{
-						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg",size_graphic));
+					} else if (random_item == 2) {
+						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg", size_graphic));
+						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
+					} else {
+						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
 					}
-					else 
-					{
-						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg",size_graphic));
-						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					
-					
+
 				}
-			}
-			else if(size_amount <= 40)
-			{
+			} else if (size_amount <= 40) {
 				items_bucket = new ArrayList<GridSquare>();
-				for(int i = 0; i < 6; i++) {
+				for (int i = 0; i < 6; i++) {
 					int random_item = random_num_items.nextInt(3);
-					
-					if( random_item == 1)
-					{
+
+					if (random_item == 1) {
 						items_bucket.add(new Vertical_Beam("Assets/V_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					else if(random_item == 2 )
-					{
-						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg",size_graphic));
+					} else if (random_item == 2) {
+						items_bucket.add(new Bomb("Assets/Bomb_tile.jpg", size_graphic));
+						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
+					} else {
+						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg", size_graphic));
 						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
 					}
-					else
-					{
-						items_bucket.add(new Horizontal_Beam("Assets/H_laser_tile.jpg",size_graphic));
-						items_bucket.get(items_bucket.size() - 1).setPadding(new Insets(0, 0, 0, 0));
-					}
-					
-					
+
 				}
 			}
-			
-			// it is spawning items on slime trails check to see if all URLs in objects are geting updated
+
+			// it is spawning items on slime trails check to see if all URLs in objects are
+			// geting updated
 			for (int i = 0; i < size_amount; i++) {
 				for (int j = 0; j < size_amount; j++) {
-					
-					if(gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG")
-					{
+
+					if (gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG") {
 						available_tiles.add(gameboard[i][j]);
 					}
-					
-					
+
 				}
-			    }
-			if(available_tiles.size() > 0)
-			{
-			for(int k = 0; k < items_bucket.size(); k++)
-			{
-				int rand_element = random_tile.nextInt(available_tiles.size());
-				gameboard[available_tiles.get(rand_element).getLocation()[0]][available_tiles.get(rand_element).getLocation()[1]] = items_bucket.get(k);
-				gameboard[available_tiles.get(rand_element).getLocation()[0]][available_tiles.get(rand_element).getLocation()[1]].setLocation(available_tiles.get(rand_element).getLocation()[0], available_tiles.get(rand_element).getLocation()[1]);
-			    available_tiles.remove(rand_element);
-			
-			
 			}
+			if (available_tiles.size() > 0) {
+				for (int k = 0; k < items_bucket.size(); k++) {
+					int rand_element = random_tile.nextInt(available_tiles.size());
+					gameboard[available_tiles.get(rand_element).getLocation()[0]][available_tiles.get(rand_element)
+							.getLocation()[1]] = items_bucket.get(k);
+					gameboard[available_tiles.get(rand_element).getLocation()[0]][available_tiles.get(rand_element)
+							.getLocation()[1]].setLocation(available_tiles.get(rand_element).getLocation()[0],
+									available_tiles.get(rand_element).getLocation()[1]);
+					available_tiles.remove(rand_element);
+
+				}
 			}
 			for (int i = 0; i < size_amount; i++) {
 				for (int j = 0; j < size_amount; j++) {
-					gameboard[i][j].setCardinalConnections(gameboard);	
+					gameboard[i][j].setCardinalConnections(gameboard);
 				}
-			    }
-			
+			}
+
 		}
 		available_tiles.clear();
 
 	}
 
-
-
-
-
-boolean checkTiles() {
-	// check conditions to end game
-	//System.out.println("We are in endgame");
-	//System.out.println(size_amount);
-	int gray_counter = 0;
-	for(int i = 0; i < size_amount; i++) {
-		for(int j = 0; j < size_amount; j++) {
-			if(gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG"
-					|| gameboard[i][j].getURL() == "Assets/V_laser_tile.jpg"
-					|| gameboard[i][j].getURL() == "Assets/Bomb_tile.jpg"
-					|| gameboard[i][j].getURL() == "Assets/H_laser_tile.jpg") { 
-				gray_counter++;
-			}
-		}		
-	}
-	System.out.println("The number of gray tiles remaining is " + gray_counter);	
-	if(gray_counter == 0) {
-		return true;
-	}
-	else {
-		return false;
-	}
-	
-}
-
-void endgame(Stage primaryStage) {
-	int pink_count = 0;
-	int green_count = 0;
-	int blue_count = 0;
-	int purple_count = 0;
-	System.out.println("Are we counting colors???");
-	for(int i = 0; i < size_amount; i++) {
-		for(int j = 0; j < size_amount; j++) {
-			
-			if(gameboard[i][j].getURL() == "Pink_Slime_Trail.png") {
-				
-				pink_count++;
-			}
-			if(gameboard[i][j].getURL() == "Green_SlimeTrail.png") {
-				green_count++;
-				
-			}
-			if(gameboard[i][j].getURL() == "Blue_Slime_Trail.jpg") {
-				blue_count++;
-			}
-			if(gameboard[i][j].getURL() == "Purple_Slime_Trail.png") {
-				purple_count++;
+	boolean checkTiles() {
+		// check conditions to end game
+		// System.out.println("We are in endgame");
+		// System.out.println(size_amount);
+		int gray_counter = 0;
+		for (int i = 0; i < size_amount; i++) {
+			for (int j = 0; j < size_amount; j++) {
+				if (gameboard[i][j].getURL() == "Assets/Gray_square_tile .PNG") {
+					gray_counter++;
+				}
 			}
 		}
+		System.out.println("The number of gray tiles remaining is " + gray_counter);
+		if (gray_counter == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
-	int[] points = {pink_count,green_count,blue_count,purple_count};
-	String[] names = {"Pink","Green","Blue","Purple"};
-	
-	for(int i = 0; i < points.length; i++) {
-		for(int j = 0; j < points.length; j++) {
-			if(points[j] < points[i]) {
-				int temp = points[j];
-				String Temp = names[j];
-				points[j] = points[i];
-				names[j] = names[i];
-				points[i] = temp;
-				names[i] = Temp;
+
+	void endgame(Stage primaryStage) {
+		int pink_count = 0;
+		int green_count = 0;
+		int blue_count = 0;
+		int purple_count = 0;
+		System.out.println("Are we counting colors???");
+		for (int i = 0; i < size_amount; i++) {
+			for (int j = 0; j < size_amount; j++) {
+
+				if (gameboard[i][j].getURL() == "Pink_Slime_Trail.png") {
+
+					pink_count++;
+				}
+				if (gameboard[i][j].getURL() == "Green_SlimeTrail.png") {
+					green_count++;
+
+				}
+				if (gameboard[i][j].getURL() == "Blue_Slime_Trail.jpg") {
+					blue_count++;
+				}
+				if (gameboard[i][j].getURL() == "Purple_Slime_Trail.png") {
+					purple_count++;
+				}
 			}
 		}
-	}
-	System.out.println(points[0]+ " " + points[1] + " " + points[2] + " " + points[3]);
-	System.out.println(names[0]+ " " + names[1] + " " + names[2] + " " + names[3]);
-	String display_scores = "";
-	display_scores += "The winner is: " + names[0] + "\n";
-	display_scores += "1. " + names[0] + " " + points[0] + "\n";
-	display_scores += "2. " + names[1] + " " + points[1] + "\n";
-	display_scores += "3. " + names[2] + " " + points[2] + "\n";
-	display_scores += "4. " + names[3] + " " + points[3] + "\n";
-	
-	
-	try {
-		Label message_label = new Label(display_scores);
-		
-		Button play = new Button();
-		play.setShape(new Circle());
-		play.setMaxSize(3, 3);
-		play.setGraphic(
-				new ImageView(new Image(new FileInputStream("Assets/right_arrow.png"), 50, 50, false, false)));
-		play.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				System.out.println("Thanks for playing!");
-				System.exit(0);
+		int[] points = { pink_count, green_count, blue_count, purple_count };
+		String[] names = { "Pink", "Green", "Blue", "Purple" };
+
+		for (int i = 0; i < points.length; i++) {
+			for (int j = 0; j < points.length; j++) {
+				if (points[j] < points[i]) {
+					int temp = points[j];
+					String Temp = names[j];
+					points[j] = points[i];
+					names[j] = names[i];
+					points[i] = temp;
+					names[i] = Temp;
+				}
 			}
-		
-		});
-		
-		
+		}
+		System.out.println(points[0] + " " + points[1] + " " + points[2] + " " + points[3]);
+		System.out.println(names[0] + " " + names[1] + " " + names[2] + " " + names[3]);
+		String display_scores = "";
+		display_scores += "The winner is: " + names[0] + "\n";
+		display_scores += "1. " + names[0] + " " + points[0] + "\n";
+		display_scores += "2. " + names[1] + " " + points[1] + "\n";
+		display_scores += "3. " + names[2] + " " + points[2] + "\n";
+		display_scores += "4. " + names[3] + " " + points[3] + "\n";
+
 		try {
-			VBox inner_vbox = new VBox(20);
-			inner_vbox.getChildren().addAll(message_label,play);
-		BackgroundImage image = new BackgroundImage(new Image(new FileInputStream("Assets/Gray_square_tile .PNG"), 500, 500, false, true),
-		        BackgroundRepeat.NO_REPEAT,
-		        BackgroundRepeat.NO_REPEAT,
-		        BackgroundPosition.CENTER,BackgroundSize.DEFAULT );
-		inner_vbox.setAlignment(Pos.CENTER);
-		inner_vbox.setPrefSize(200, 200);
-		inner_vbox.setBackground(new Background(image));
-		VBox vbox = new VBox(inner_vbox);
-		BackgroundImage gamescreen_bg = new BackgroundImage(new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
-				BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		vbox.setBackground(new Background(gamescreen_bg));
-		vbox.setAlignment(Pos.CENTER);
-		
-		
-		Scene scene = new Scene(vbox, 700, 500);
-		primaryStage.setScene(scene);
+			Label message_label = new Label(display_scores);
+
+			Button play = new Button();
+			play.setShape(new Circle());
+			play.setMaxSize(3, 3);
+			play.setGraphic(
+					new ImageView(new Image(new FileInputStream("Assets/right_arrow.png"), 50, 50, false, false)));
+			play.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					System.out.println("Thanks for playing!");
+					System.exit(0);
+				}
+
+			});
+
+			try {
+				VBox inner_vbox = new VBox(20);
+				inner_vbox.getChildren().addAll(message_label, play);
+				BackgroundImage image = new BackgroundImage(
+						new Image(new FileInputStream("Assets/Gray_square_tile .PNG"), 500, 500, false, true),
+						BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+						BackgroundSize.DEFAULT);
+				inner_vbox.setAlignment(Pos.CENTER);
+				inner_vbox.setPrefSize(200, 200);
+				inner_vbox.setBackground(new Background(image));
+				VBox vbox = new VBox(inner_vbox);
+				BackgroundImage gamescreen_bg = new BackgroundImage(
+						new Image(new FileInputStream("Assets/slime_BG.jpg"), 500, 500, false, true),
+						BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+						BackgroundSize.DEFAULT);
+				vbox.setBackground(new Background(gamescreen_bg));
+				vbox.setAlignment(Pos.CENTER);
+
+				Scene scene = new Scene(vbox, 700, 500);
+				primaryStage.setScene(scene);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			primaryStage.show();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-		primaryStage.show();
+
 	}
-	catch(Exception e) {
-		System.out.println(e);
-	}
-	
-}
 }
