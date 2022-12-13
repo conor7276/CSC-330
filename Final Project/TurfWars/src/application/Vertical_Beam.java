@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 public class Vertical_Beam  extends GridSquare implements Items{
-	MediaPlayer beam_sound;
+	transient MediaPlayer beam_sound;
 	String beam_sound_location = "Assets\\laser_sound.wav";
 	// C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\laser_sound.wav
 	
@@ -39,10 +39,11 @@ public class Vertical_Beam  extends GridSquare implements Items{
 		System.out.println("Hello From V_beam!");
 		System.out.println("Beaming Vertically " + gameboard.length);
 		for(int square = 0; square < gameboard.length; square++) {
-			if(gameboard[square][location[1]].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[square][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[square][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[square][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
+			if(gameboard[square][location[1]].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[square][location[1]].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[square][location[1]].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[square][location[1]].getURL().equals("Assets/Pink_Slime_Icon.png")== false)
+			{
 				System.out.println(gameboard[square][location[1]] + slime_trail_string);
 				gameboard[square][location[1]].setURL(slime.getTrailString());
 				//GridSquare temp;
@@ -51,7 +52,8 @@ public class Vertical_Beam  extends GridSquare implements Items{
 				//gameboard[square][location[1]].setCardinalConnections(gameboard);
 				//this.setCardinalConnections(gameboard);
 				try {
-					gameboard[square][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[square][location[1]].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[square][location[1]].setURL(slime.getTrailString());
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

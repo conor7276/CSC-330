@@ -10,7 +10,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class Bomb extends GridSquare implements Items{
-	MediaPlayer bomb_sound;
+	transient MediaPlayer bomb_sound;
 	String bomb_sound_location = "Assets\\bomb_sound.mp3";
 	// C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\bomb_sound.mp3
 
@@ -30,9 +30,7 @@ public class Bomb extends GridSquare implements Items{
 		
 	}
 	@Override
-
 	public GridSquare[][] Use(GridSquare[][] gameboard, String SlimeTrail_String, int[] location,PlayerSuper slime) {
-
 		// TODO Auto-generated method stub
 		bomb_sound = null;
 		bomb_sound = new MediaPlayer(new Media(new File(bomb_sound_location).toURI().toString()));
@@ -41,151 +39,134 @@ public class Bomb extends GridSquare implements Items{
 		System.out.println("Hello From Bomb!");
 		System.out.println("Bombing the place!");
 		try {
-			if(gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0]+ 1][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0]+ 1][location[1]].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0]+ 1][location[1]].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0]+ 1][location[1]].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0]+ 1][location[1]].getURL().equals("Assets/Pink_Slime_Icon.png") == false) {
 				gameboard[location[0] + 1][location[1]].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0] + 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0] + 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0]- 1][location[1]].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0]- 1][location[1]].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0]- 1][location[1]].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0]- 1][location[1]].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0]- 1][location[1]].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0]- 1][location[1]].getURL().equals("Assets/Pink_Slime_Icon.png") == false) {
 				gameboard[location[0] - 1][location[1]].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0] - 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0] - 1][location[1]].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0]][location[1] + 1].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0]][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0]][location[1] + 1].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0]][location[1] + 1].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0]][location[1] + 1].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0]][location[1] + 1].getURL().equals("Assets/Pink_Slime_Icon.png") == false) {
 				gameboard[location[0]][location[1] + 1].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0]][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0]][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0]][location[1] - 1].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0]][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0]][location[1] - 1].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0]][location[1] - 1].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0]][location[1] - 1].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0]][location[1] - 1].getURL().equals("Assets/Pink_Slime_Icon.png") == false) {
 				gameboard[location[0]][location[1] - 1].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0]][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0]][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0] + 1][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0] + 1][location[1] + 1].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0] + 1][location[1] + 1].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0] + 1][location[1] + 1].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0] + 1][location[1] + 1].getURL().equals("Assets/Pink_Slime_Icon.png") == false) {
 				gameboard[location[0] + 1][location[1] + 1].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0] + 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0] + 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0] + 1][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0] + 1][location[1] - 1].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0] + 1][location[1] - 1].getURL().equals("Assets/Blue_Slime_Icon.png") == false&& 
+					gameboard[location[0] + 1][location[1] - 1].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0] + 1][location[1] - 1].getURL().equals("Assets/Pink_Slime_Icon.png") == false ) {
 				gameboard[location[0]][location[1] - 1].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0] + 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0] + 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0] - 1][location[1] + 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-
+			if(gameboard[location[0] - 1][location[1] + 1].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0] - 1][location[1] + 1].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0] - 1][location[1] + 1].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0] - 1][location[1] + 1].getURL().equals("Assets/Pink_Slime_Icon.png") == false) {
 				gameboard[location[0] - 1][location[1] + 1].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0] - 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0] - 1][location[1] + 1].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			
 		}catch(Exception e) {
 			System.out.println("Can't bomb this area");
 		}
 		try {
-			if(gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0] - 1][location[1] - 1].getURL() != "Assets/Pink_Slime_Icon.png") {
-
-
+			if(gameboard[location[0] - 1][location[1] - 1].getURL().equals("Assets/Purple_Slime_Icon.png") == false&&
+					gameboard[location[0] - 1][location[1] - 1].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0] - 1][location[1] - 1].getURL().equals("Assets/Green_Slime_Icon.png") == false &&
+					gameboard[location[0] - 1][location[1] - 1].getURL().equals("Assets/Pink_Slime_Icon.png")== false) {
 				gameboard[location[0] - 1][location[1] - 1].setURL(slime.getTrailString());
 				try {
-					gameboard[location[0] - 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0] - 1][location[1] - 1].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 			
 		}catch(Exception e) {

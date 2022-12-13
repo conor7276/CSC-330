@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 public class Horizontal_Beam  extends GridSquare implements Items{
-	MediaPlayer beam_sound;
+	transient MediaPlayer beam_sound;
 	String beam_sound_location = "Assets\\laser_sound.wav";
     // C:\\Users\\chris\\eclipse-workspace\\TurfWars\\Assets\\laser_sound.wav
 	Horizontal_Beam(String URL, int img_size)
@@ -37,10 +37,12 @@ public class Horizontal_Beam  extends GridSquare implements Items{
 		System.out.println("Hello From H_beam!");
 		System.out.println("Beaming Horizontally!");
 		for(int square = 0; square < gameboard.length; square++) {
-			if(gameboard[location[0]][square].getURL() != "Assets/Purple_Slime_Icon.png" &&
-					gameboard[location[0]][square].getURL() != "Assets/Blue_Slime_Icon.png" && 
-					gameboard[location[0]][square].getURL() != "Assets/Green_Slime_Icon.png" &&
-					gameboard[location[0]][square].getURL() != "Assets/Pink_Slime_Icon.png") {
+			if(gameboard[location[0]][square].getURL().equals("Assets/Purple_Slime_Icon.png") == false &&
+					gameboard[location[0]][square].getURL().equals("Assets/Blue_Slime_Icon.png") == false && 
+					gameboard[location[0]][square].getURL().equals("Assets/Green_Slime_Icon.png")== false &&
+					gameboard[location[0]][square].getURL().equals("Assets/Pink_Slime_Icon.png")== false) 
+			{
+			
 				System.out.println(gameboard[location[0]][square]);
 				gameboard[location[0]][square].setURL(slime.getTrailString());
 				//gameboard[location[0]][square].setCardinalConnections(gameboard);
@@ -49,7 +51,8 @@ public class Horizontal_Beam  extends GridSquare implements Items{
 				//System.out.println("are we getting here?");
 //				temp = gameboard[slime.getLocation()[0]][square];
 				try {
-					gameboard[location[0]][square].setGraphic(new ImageView(new Image(new FileInputStream("Assets/"+slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0]][square].setGraphic(new ImageView(new Image(new FileInputStream(slime.getTrailString()),slime.getTrail().getImage().getHeight(),slime.getTrail().getImage().getWidth(),false,false)));
+					gameboard[location[0]][square].setURL(slime.getTrailString());
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
